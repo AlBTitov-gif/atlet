@@ -304,9 +304,7 @@ export function parseHistoryText(text) {
 export function buildWorkouts(parsed) {
   const out = [];
   for (const w of parsed.workouts) {
-    const day = startOfDay(parseDate(w.date));
-    // время: 19:00, длительность ~60 мин
-    const startedAt = day.getTime() + 19 * 3600 * 1000;
+    const startedAt = new Date(`${w.date}T19:00:00`).getTime();
     const items = w.items.map((it) => ({
       id: uid('it'),
       exerciseId: it.exerciseId,

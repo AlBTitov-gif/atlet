@@ -227,7 +227,7 @@ function normalizeForeignWorkout(raw) {
     }
   }
   if (!items.length) return null;
-  const startedAt = startOfDay(parseDate(dateIso)).getTime() + 19 * 3600 * 1000;
+  const startedAt = new Date(`${dateIso}T19:00:00`).getTime();
   return {
     id: uid('w'),
     name: raw.name || raw.title || 'Импортированная тренировка',
