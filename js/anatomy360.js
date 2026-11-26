@@ -57,7 +57,7 @@ function frameHtml(angle, index, pct) {
   const tints = ZONES.map((zone) => {
     const v = zoneValue(zone, angle, pct);
     const ratio = v / maxPct;
-    if (ratio < 0.45) return '';
+    if (ratio < 0.3) return '';
     const rel = ratio * 100;
     const opacity = Math.min(0.9, 0.28 + ratio * 0.55);
     return (
