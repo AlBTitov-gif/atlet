@@ -116,10 +116,18 @@ export function matchExercise(name) {
     hit = all.find((e) => e.id === alias);
     if (hit) return hit;
   }
-  // частичное вхождение
-  hit = all.find((e) => normalizeName(e.name).includes(n) || n.includes(normalizeName(e.name)));
-  if (hit) return hit;
-  return null;
+  // частичное вхождение: выбираем самое точное совпадение
+  const candidates = all
+    .map((e) => {
+      const en = normalizeName(e.name);
+      let score = 0;
+      if (en.startsWith(n) || n.startsWith(en)) score = 2;
+      else if (en.includes(n) || n.includes(en)) score = 1;
+      return { e, score, diff: Math.abs(en.length - n.length) };
+    })
+    .filter((c) => c.score > 0)
+    .sort((a, b) => b.score - a.score || a.diff - b.diff);
+  return candidates.length ? candidates[0].e : null;
 }
 
 /* ---------- парсер ---------- */
