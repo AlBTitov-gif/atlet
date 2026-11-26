@@ -149,6 +149,18 @@ export default function renderProfile() {
             <span class="list__sub">JSON-файл Атлета</span></span>
           ${icon('chevronRight', 18, 'list__chev')}
         </button>
+        <button class="list__row" data-action="export-programs">
+          <span class="list__icon">${icon('layers', 18)}</span>
+          <span class="grow"><span class="list__label" style="display:block">Экспорт программ</span>
+            <span class="list__sub">Файл со всеми программами тренировок</span></span>
+          ${icon('chevronRight', 18, 'list__chev')}
+        </button>
+        <button class="list__row" data-action="import-programs">
+          <span class="list__icon">${icon('upload', 18)}</span>
+          <span class="grow"><span class="list__label" style="display:block">Импорт программ</span>
+            <span class="list__sub">Добавить программы из файла</span></span>
+          ${icon('chevronRight', 18, 'list__chev')}
+        </button>
         <button class="list__row" data-action="import-history">
           <span class="list__icon list__icon--accent">${icon('history', 18)}</span>
           <span class="grow"><span class="list__label" style="display:block">Импорт истории тренировок</span>
@@ -349,6 +361,48 @@ export function aboutSheet() {
       <p class="muted" style="font-size:12.5px">Приложение не заменяет тренера и врача. Перед началом занятий проконсультируйтесь со специалистом.</p>
     </div>`,
   });
+}
+
+/* ---------- программы: экспорт / импорт ---------- */
+export function doExportPrograms() {
+  const list = (state.programs || []).map((p) => ({ ...p }));
+  const payload = {
+    app: 'atlet-programs',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    count: list.length,
+    programs: list,
+  };
+  download(`atlet-programmy-${isoDate(new Date())}.json`, JSON.stringify(payload, null, 2));
+  toast(`Экспортировано программ: ${list.length}`);
+}
+
+export function doImportPrograms() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.onchange = async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      const list = Array.isArray(data) ? data : data.programs;
+      if (!Array.isArray(list) || !list.length) {
+        toast("В файле нет программ", "danger");
+        return;
+      }
+      const have = new Set((state.programs || []).map((p) => p.id));
+      const fresh = list.filter((p) => p && p.id && p.name && !have.has(p.id));
+      state.programs = [...(state.programs || []), ...fresh];
+      save({ immediate: true });
+      toast(fresh.length ? `Добавлено программ: ${fresh.length}` : "Все программы уже есть");
+      refresh();
+    } catch (e) {
+      console.error(e);
+      toast("Не удалось прочитать файл программ", "danger");
+    }
+  };
+  input.click();
 }
 
 /* ---------- операции с данными ---------- */

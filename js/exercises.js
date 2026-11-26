@@ -24,9 +24,12 @@ export const GROUPS = {
   arms: { label: 'Руки', short: 'Ру', color: '#fbbf24' },
   core: { label: 'Пресс', short: 'Пр', color: '#fb923c' },
   cardio: { label: 'Кардио', short: 'Ка', color: '#38bdf8' },
+  sport: { label: 'Спорт', short: 'Сп', color: '#34d399' },
 };
 
-export const GROUP_ORDER = ['chest', 'back', 'legs', 'glutes', 'shoulders', 'arms', 'core', 'cardio'];
+export const GROUP_ORDER = ['chest', 'back', 'legs', 'glutes', 'shoulders', 'arms', 'core', 'cardio', 'sport'];
+/** Группы для карты тела и нагрузки (без sport/cardio) */
+export const MUSCLE_GROUPS = ['chest', 'back', 'shoulders', 'arms', 'core', 'glutes', 'legs'];
 export const LEVELS = { 1: 'Новичок', 2: 'Средний', 3: 'Опытный' };
 
 /* [id, name, group, eq, level, compound, cues[], alts[], flags] */
@@ -38,7 +41,7 @@ const RAW = [
   ['incline-bench', 'Жим штанги на наклонной', 'chest', 'barbell', 2, true,
     ['Наклон 30–45° — акцент на верх груди.', 'Сведите лопатки, не выталкивайте плечи вперёд.', 'Не выпрямляйте локти в замок, держите напряжение.'],
     ['bench-press', 'incline-db-press', 'cable-crossover']],
-  ['incline-db-press', 'Жим гантелей на наклонной', 'chest', 'dumbbell', 2, true,
+  ['incline-db-press', 'Жим гантелей на наклонной (30°) скамье вверх', 'chest', 'dumbbell', 2, true,
     ['Гантели над грудью, к верху ладони чуть поворачиваются друг к другу.', 'Опускайте медленно, чувствуя растяжение груди.', 'Не «выбивайте» локти в замок.'],
     ['incline-bench', 'bench-db', 'db-fly']],
   ['bench-db', 'Жим гантелей лёжа', 'chest', 'dumbbell', 1, true,
@@ -47,7 +50,7 @@ const RAW = [
   ['machine-press', 'Жим в тренажёре (грудь)', 'chest', 'machine', 1, true,
     ['Отрегулируйте сиденье: ручки на уровне груди.', 'Не отрывайте лопатки от спинки.', 'Контроль на возврате.'],
     ['bench-db', 'bench-press', 'incline-db-press']],
-  ['db-fly', 'Разведение гантелей лёжа', 'chest', 'dumbbell', 2, false,
+  ['db-fly', 'Разведение гантелей на наклонной (30°) вверх скамье', 'chest', 'dumbbell', 2, false,
     ['Лёгкий сгиб локтя, фиксируйте угол на всём движении.', 'Разводите до растяжения груди, не ниже линии плеч.', 'Сводите за счёт груди, а не плеч.'],
     ['cable-crossover', 'pec-deck', 'incline-db-press']],
   ['cable-crossover', 'Сведение рук в кроссовере', 'chest', 'cable', 1, false,
@@ -263,13 +266,13 @@ const RAW = [
   ['side-plank', 'Боковая планка', 'core', 'bodyweight', 1, false,
     ['Локоть строго под плечом.', 'Таз не опускайте и не поднимайте.', 'Держите равновесие.'],
     ['plank', 'pallof-press'], { time: true }],
-  ['crunch', 'Скручивания лёжа', 'core', 'bodyweight', 1, false,
+  ['crunch', 'Подъём туловища лёжа на полу', 'core', 'bodyweight', 1, false,
     ['Не тяните голову руками.', 'Округляйте верх спины, поднимая лопатки.', 'Выдох на подъёме.'],
     ['hanging-knee-raise', 'cable-crunch']],
   ['cable-crunch', 'Скручивания на верхнем блоке', 'core', 'cable', 2, false,
     ['Тянитесь грудью к тазу, округляя спину.', 'Таз неподвижен.', 'Медленный возврат.'],
     ['crunch', 'hanging-knee-raise']],
-  ['hanging-knee-raise', 'Подъём коленей в висе', 'core', 'bodyweight', 2, false,
+  ['hanging-knee-raise', 'Подъём ног в висе на турнике', 'core', 'bodyweight', 2, false,
     ['Держите корпус ровно, без раскачки.', 'Поднимайте колени к груди.', 'Опускайте медленно.'],
     ['leg-raise', 'crunch']],
   ['leg-raise', 'Подъём ног лёжа', 'core', 'bodyweight', 2, false,

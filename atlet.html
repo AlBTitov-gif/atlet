@@ -2576,6 +2576,74 @@ html.timer-alert .rest-pill {
   text-align: left;
 }
 
+/* переключатель месяцев в календаре */
+.cal__months {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 2px 9px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cal__months::-webkit-scrollbar {
+  display: none;
+}
+.cal__month-chip,
+.cal__jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: var(--r-full);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.cal__month-chip:active,
+.cal__jump:active {
+  transform: scale(0.96);
+}
+.cal__month-chip.is-on {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.cal__month-n {
+  font-size: 10.5px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--surface-3);
+  display: inline-grid;
+  place-items: center;
+  color: var(--text-2);
+}
+.cal__month-chip.is-on .cal__month-n {
+  background: rgba(198, 242, 74, 0.22);
+  color: var(--accent);
+}
+.cal__jump {
+  background: transparent;
+  border-style: dashed;
+  color: var(--text-2);
+}
+.cal__foot {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--text-3);
+  text-align: center;
+}
+
 /* css/progress.css */
 /* ============================================================
    Прогресс, профиль
@@ -2750,6 +2818,190 @@ html.timer-alert .rest-pill {
 }
 .delta--down {
   color: var(--danger);
+}
+
+/* ============================================================
+   Карта мышц и спорт
+   ============================================================ */
+.bodymap-card {
+  padding: 10px 12px 12px;
+}
+.bodymap-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0 6px;
+}
+.bodymap {
+  width: 100%;
+  max-width: 330px;
+  height: auto;
+  display: block;
+}
+.bodymap .body-base {
+  stroke-linejoin: round;
+}
+.bodymap__cap {
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--text-3);
+  letter-spacing: 0.02em;
+}
+.bodymap .muscle {
+  transition: fill-opacity 0.4s var(--ease-out);
+}
+.bodymap-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+.bm-row {
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 2px;
+  padding: 4px 0;
+}
+.bm-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  grid-row: span 1;
+}
+.bm-name {
+  font-size: 13px;
+  color: var(--text-2);
+}
+.bm-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.bm-track {
+  grid-column: 2 / 4;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+.bm-fill {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  opacity: 0.9;
+  transition: width 0.5s var(--ease-out);
+}
+.bm-row--sport .bm-name {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* выбор спорта */
+.sport-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.sport-pick {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: left;
+  transition: all 0.14s;
+}
+.sport-pick:active {
+  transform: scale(0.97);
+  background: var(--surface-3);
+}
+.sport-pick__ic {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(52, 211, 153, 0.14);
+  color: #34d399;
+  flex: none;
+}
+.sport-pick__meta {
+  display: block;
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+  margin-top: 1px;
+}
+.sport-duration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 10px 0 4px;
+}
+.sport-duration__val {
+  font-family: var(--font-num);
+  font-size: 40px;
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  min-width: 130px;
+  text-align: center;
+}
+.sport-duration__val small {
+  font-size: 15px;
+  color: var(--text-3);
+  font-weight: 600;
+  margin-left: 3px;
+}
+
+/* ============================================================
+   Анатомическая карта мышц
+   ============================================================ */
+.anatomy-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 2px;
+}
+.anatomy {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.45));
+}
+.anatomy .ms path {
+  transition: fill-opacity 0.4s var(--ease-out), fill 0.4s;
+}
+.bm-label__txt {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--text-2);
+}
+.anatomy-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-3);
+  padding: 2px 0 10px;
+}
+.anatomy-caption__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+}
+.bodymap-card {
+  padding: 8px 10px 10px;
 }
 
 </style>
@@ -3235,9 +3487,12 @@ const GROUPS = {
   arms: { label: 'Руки', short: 'Ру', color: '#fbbf24' },
   core: { label: 'Пресс', short: 'Пр', color: '#fb923c' },
   cardio: { label: 'Кардио', short: 'Ка', color: '#38bdf8' },
+  sport: { label: 'Спорт', short: 'Сп', color: '#34d399' },
 };
 
-const GROUP_ORDER = ['chest', 'back', 'legs', 'glutes', 'shoulders', 'arms', 'core', 'cardio'];
+const GROUP_ORDER = ['chest', 'back', 'legs', 'glutes', 'shoulders', 'arms', 'core', 'cardio', 'sport'];
+/** Группы для карты тела и нагрузки (без sport/cardio) */
+const MUSCLE_GROUPS = ['chest', 'back', 'shoulders', 'arms', 'core', 'glutes', 'legs'];
 const LEVELS = { 1: 'Новичок', 2: 'Средний', 3: 'Опытный' };
 
 /* [id, name, group, eq, level, compound, cues[], alts[], flags] */
@@ -3249,7 +3504,7 @@ const RAW = [
   ['incline-bench', 'Жим штанги на наклонной', 'chest', 'barbell', 2, true,
     ['Наклон 30–45° — акцент на верх груди.', 'Сведите лопатки, не выталкивайте плечи вперёд.', 'Не выпрямляйте локти в замок, держите напряжение.'],
     ['bench-press', 'incline-db-press', 'cable-crossover']],
-  ['incline-db-press', 'Жим гантелей на наклонной', 'chest', 'dumbbell', 2, true,
+  ['incline-db-press', 'Жим гантелей на наклонной (30°) скамье вверх', 'chest', 'dumbbell', 2, true,
     ['Гантели над грудью, к верху ладони чуть поворачиваются друг к другу.', 'Опускайте медленно, чувствуя растяжение груди.', 'Не «выбивайте» локти в замок.'],
     ['incline-bench', 'bench-db', 'db-fly']],
   ['bench-db', 'Жим гантелей лёжа', 'chest', 'dumbbell', 1, true,
@@ -3258,7 +3513,7 @@ const RAW = [
   ['machine-press', 'Жим в тренажёре (грудь)', 'chest', 'machine', 1, true,
     ['Отрегулируйте сиденье: ручки на уровне груди.', 'Не отрывайте лопатки от спинки.', 'Контроль на возврате.'],
     ['bench-db', 'bench-press', 'incline-db-press']],
-  ['db-fly', 'Разведение гантелей лёжа', 'chest', 'dumbbell', 2, false,
+  ['db-fly', 'Разведение гантелей на наклонной (30°) вверх скамье', 'chest', 'dumbbell', 2, false,
     ['Лёгкий сгиб локтя, фиксируйте угол на всём движении.', 'Разводите до растяжения груди, не ниже линии плеч.', 'Сводите за счёт груди, а не плеч.'],
     ['cable-crossover', 'pec-deck', 'incline-db-press']],
   ['cable-crossover', 'Сведение рук в кроссовере', 'chest', 'cable', 1, false,
@@ -3474,13 +3729,13 @@ const RAW = [
   ['side-plank', 'Боковая планка', 'core', 'bodyweight', 1, false,
     ['Локоть строго под плечом.', 'Таз не опускайте и не поднимайте.', 'Держите равновесие.'],
     ['plank', 'pallof-press'], { time: true }],
-  ['crunch', 'Скручивания лёжа', 'core', 'bodyweight', 1, false,
+  ['crunch', 'Подъём туловища лёжа на полу', 'core', 'bodyweight', 1, false,
     ['Не тяните голову руками.', 'Округляйте верх спины, поднимая лопатки.', 'Выдох на подъёме.'],
     ['hanging-knee-raise', 'cable-crunch']],
   ['cable-crunch', 'Скручивания на верхнем блоке', 'core', 'cable', 2, false,
     ['Тянитесь грудью к тазу, округляя спину.', 'Таз неподвижен.', 'Медленный возврат.'],
     ['crunch', 'hanging-knee-raise']],
-  ['hanging-knee-raise', 'Подъём коленей в висе', 'core', 'bodyweight', 2, false,
+  ['hanging-knee-raise', 'Подъём ног в висе на турнике', 'core', 'bodyweight', 2, false,
     ['Держите корпус ровно, без раскачки.', 'Поднимайте колени к груди.', 'Опускайте медленно.'],
     ['leg-raise', 'crunch']],
   ['leg-raise', 'Подъём ног лёжа', 'core', 'bodyweight', 2, false,
@@ -3580,6 +3835,51 @@ function exerciseTypeInfo(ex) {
   return { hasWeight, hasReps: !hasTime || ex.group !== 'cardio', hasTime, hasDist };
 }
 
+/* ===== js\sports.js ===== */
+/* ============================================================
+   Спорт: футбол, волейбол, теннис и т.д.
+   Каждый вид спорта даёт нагрузку на группы мышц для аналитики.
+   ============================================================ */
+
+/* load — распределение нагрузки по группам (0–1), сумма не обязана быть 1 */
+const SPORTS = [
+  { id: 'sport-football', name: 'Футбол', load: { legs: 1.0, glutes: 0.5, core: 0.6, cardio: 1.0, back: 0.2 }, dist: true, time: true },
+  { id: 'sport-volleyball', name: 'Волейбол', load: { shoulders: 0.8, legs: 0.7, core: 0.6, arms: 0.5, cardio: 0.8 }, dist: false, time: true },
+  { id: 'sport-basketball', name: 'Баскетбол', load: { legs: 0.9, glutes: 0.6, shoulders: 0.6, core: 0.5, cardio: 0.9 }, dist: false, time: true },
+  { id: 'sport-tennis', name: 'Теннис', load: { arms: 0.9, shoulders: 0.8, core: 0.7, legs: 0.6, cardio: 0.7 }, dist: false, time: true },
+  { id: 'sport-table-tennis', name: 'Настольный теннис', load: { arms: 0.6, shoulders: 0.5, core: 0.4, cardio: 0.4 }, dist: false, time: true },
+  { id: 'sport-badminton', name: 'Бадминтон', load: { arms: 0.7, shoulders: 0.7, legs: 0.6, core: 0.5, cardio: 0.8 }, dist: false, time: true },
+  { id: 'sport-hockey', name: 'Хоккей', load: { legs: 0.9, glutes: 0.7, back: 0.6, core: 0.6, cardio: 1.0 }, dist: false, time: true },
+  { id: 'sport-swimming', name: 'Плавание', load: { back: 0.8, shoulders: 0.9, core: 0.6, arms: 0.6, cardio: 0.9 }, dist: true, time: true },
+  { id: 'sport-running', name: 'Бег на улице', load: { legs: 1.0, glutes: 0.6, core: 0.4, cardio: 1.0 }, dist: true, time: true },
+  { id: 'sport-cycling', name: 'Велосипед', load: { legs: 0.9, glutes: 0.6, cardio: 0.9 }, dist: true, time: true },
+  { id: 'sport-skiing', name: 'Лыжи / сноуборд', load: { legs: 0.8, glutes: 0.5, core: 0.6, cardio: 0.8 }, dist: false, time: true },
+  { id: 'sport-martial', name: 'Единоборства', load: { shoulders: 0.7, arms: 0.6, core: 0.8, legs: 0.6, cardio: 0.9 }, dist: false, time: true },
+  { id: 'sport-gym-dance', name: 'Танцы / аэробика', load: { legs: 0.7, core: 0.6, glutes: 0.4, cardio: 0.9 }, dist: false, time: true },
+  { id: 'sport-hiking', name: 'Поход / ходьба', load: { legs: 0.9, glutes: 0.5, cardio: 0.7 }, dist: true, time: true },
+  { id: 'sport-yoga', name: 'Йога / растяжка', load: { core: 0.6, back: 0.5, legs: 0.4, shoulders: 0.4 }, dist: false, time: true },
+  { id: 'sport-other', name: 'Другой спорт', load: { legs: 0.5, core: 0.5, cardio: 0.5 }, dist: false, time: true },
+];
+
+const SPORTS_BY_ID = new Map(SPORTS.map((s) => [s.id, s]));
+
+function isSport(ex) {
+  if (!ex) return false;
+  return ex.group === 'sport' || ex.id?.startsWith('sport-');
+}
+
+function sportOf(ex) {
+  if (!ex) return null;
+  return SPORTS_BY_ID.get(ex.id) || null;
+}
+
+/** Эквивалент «подходов» для спорта: 1 подход ≈ 5 минут нагрузки */
+const MINUTES_PER_SET = 5;
+
+function sportScore(minutes) {
+  return Math.max(0.5, minutes / MINUTES_PER_SET);
+}
+
 /* ===== js\analytics.js ===== */
 /* ============================================================
    Аналитика: объём, история упражнений, рекорды, стрики
@@ -3588,8 +3888,31 @@ function exerciseTypeInfo(ex) {
 
 
 
+
+function sportAsExercise(s) {
+  return {
+    id: s.id,
+    name: s.name,
+    group: 'sport',
+    eq: 'sport',
+    level: 1,
+    compound: false,
+    cues: ['Спортивная активность: учитывается время и нагрузка на группы мышц.'],
+    alts: [],
+    time: true,
+    dist: !!s.dist,
+    sport: true,
+    load: s.load,
+    custom: false,
+  };
+}
+
 function allExercises() {
-  return [...baseExercises(), ...(state.customExercises || [])];
+  return [...baseExercises(), ...SPORTS.map(sportAsExercise), ...(state.customExercises || [])];
+}
+
+function isSportExercise(id) {
+  return isSport({ id });
 }
 
 function exerciseById(id) {
@@ -3639,9 +3962,10 @@ function workoutGroups(w) {
     const g = exerciseGroup(it.exerciseId);
     const vol = sum(it.sets || [], (s) => (s.done ? num(s.weight) * num(s.reps) : 0));
     const sets = (it.sets || []).filter((s) => s.done).length;
-    const cur = map.get(g) || { group: g, volume: 0, sets: 0 };
+    const cur = map.get(g) || { group: g, volume: 0, sets: 0, seconds: 0 };
     cur.volume += vol;
     cur.sets += sets;
+    cur.seconds += sum(it.sets || [], (s) => (s.done ? num(s.duration) * 60 : 0));
     map.set(g, cur);
   }
   return [...map.values()].sort((a, b) => b.volume - a.volume || b.sets - a.sets);
@@ -3801,6 +4125,89 @@ function groupVolume(fromIso, toIso = isoDate(new Date())) {
     }
   }
   return totals;
+}
+
+/**
+ * Нагрузка по группам мышц в процентах (как в Fitness Online):
+ * силовые — подходы, спорт — минуты, пересчитанные в эквивалент подходов.
+ * Возвращает { groups: [{group, pct, sets, seconds, isSport}], total, sportSeconds }
+ */
+function muscleLoad(fromIso, toIso = isoDate(new Date())) {
+  const scores = {};
+  const seconds = {};
+  const rawSets = {};
+  for (const g of Object.keys(GROUPS)) {
+    scores[g] = 0;
+    seconds[g] = 0;
+    rawSets[g] = 0;
+  }
+  const ws = finishedWorkouts().filter((w) => {
+    const d = w.date || isoDate(w.startedAt);
+    return d >= fromIso && d <= toIso;
+  });
+  for (const w of ws) {
+    for (const it of w.items || []) {
+      const ex = exerciseById(it.exerciseId);
+      const g = ex?.group || 'chest';
+      const done = (it.sets || []).filter((s) => s.done);
+      if (!done.length) continue;
+
+      if (ex?.sport || isSportExercise(it.exerciseId)) {
+        const sp = sportOf(ex) || { load: { legs: 0.5, core: 0.5, cardio: 0.5 } };
+        const minutes = sum(done, (s) => num(s.duration));
+        const eq = sportScore(minutes || 30);
+        for (const [mg, weight] of Object.entries(sp.load)) {
+          if (mg === 'cardio') {
+            scores.cardio = (scores.cardio || 0) + eq * weight;
+          } else if (scores[mg] !== undefined) {
+            scores[mg] += eq * weight;
+          }
+        }
+        seconds.sport = (seconds.sport || 0) + (minutes || 30) * 60;
+        rawSets.sport = (rawSets.sport || 0) + 1;
+      } else {
+        const factor = ex?.compound ? 1.2 : 1;
+        scores[g] = (scores[g] || 0) + done.length * factor;
+        rawSets[g] += done.length;
+        seconds[g] += sum(done, (s) => num(s.duration) * 60);
+      }
+    }
+  }
+  const total = Object.values(scores).reduce((x, y) => x + y, 0);
+  const display = Object.keys(GROUPS)
+    .map((g) => ({
+      group: g,
+      pct: total > 0 ? (scores[g] / total) * 100 : 0,
+      sets: rawSets[g] || 0,
+      seconds: seconds[g] || 0,
+      isSport: g === 'cardio' || g === 'sport',
+    }))
+    .filter((x) => x.pct > 0.01)
+    .sort((x, y) => y.pct - x.pct);
+  return { groups: display, total, sportSeconds: seconds.sport || 0, workouts: ws.length };
+}
+
+/** Время по видам спорта за период: [{name, minutes, sessions}] */
+function sportBreakdown(fromIso, toIso = isoDate(new Date())) {
+  const map = new Map();
+  const ws = finishedWorkouts().filter((w) => {
+    const d = w.date || isoDate(w.startedAt);
+    return d >= fromIso && d <= toIso;
+  });
+  for (const w of ws) {
+    for (const it of w.items || []) {
+      const ex = exerciseById(it.exerciseId);
+      if (!ex?.sport) continue;
+      const done = (it.sets || []).filter((s) => s.done);
+      if (!done.length) continue;
+      const minutes = sum(done, (s) => num(s.duration)) || workoutDuration(w) / 60;
+      const cur = map.get(it.exerciseId) || { id: it.exerciseId, name: ex.name, minutes: 0, sessions: 0 };
+      cur.minutes += minutes;
+      cur.sessions += 1;
+      map.set(it.exerciseId, cur);
+    }
+  }
+  return [...map.values()].sort((a, b) => b.minutes - a.minutes);
 }
 
 /** Данные для графика объёма по неделям: [{label, volume, count}] */
@@ -4248,6 +4655,69 @@ const PRESET_RAW = [
         name: 'Круг B',
         focus: 'Всё тело',
         items: [s('kb-swing', 3, '15-20', 45), s('hip-thrust', 3, '12-15', 60), s('bench-db', 3, '10-12', 60), s('lat-pulldown', 3, '12-15', 45), s('burpee', 3, '8-10', 60), s('jump-rope', 3, '60-90', 45, { note: 'секунд' })],
+      },
+    ],
+  },
+  {
+    id: 'chest-biceps',
+    name: 'Грудь + бицепс',
+    goal: 'mass',
+    level: 1,
+    weeks: 8,
+    color: '#ff6b6b',
+    icon: 'layers',
+    tagline: 'Ваш сплит: жимы и руки',
+    description:
+      'Программа по вашей тренировке: жим штанги, жимы и разведения гантелей на наклонной, сгибания на бицепс и пресс. Хорошо работает в паре с днём «Спина + трицепс».',
+    tips: [
+      'Начинайте с жима штанги — это главное движение дня.',
+      'Разведения делайте лёгкими: вес уменьшается по подходам, чтобы держать технику.',
+      'Когда 10 повторений в жиме даются легко — добавьте 2,5 кг.',
+    ],
+    days: [
+      {
+        name: 'Грудь + бицепс',
+        focus: 'Грудь · Бицепс',
+        items: [
+          s('bench-press', 4, '8-10', 120, { note: 'разминка: пустой гриф, затем 50%' }),
+          s('db-curl', 3, '10-12', 75, { note: 'поочерёдно, с разворотом кисти' }),
+          s('db-shoulder-press', 3, '10-12', 90),
+          s('incline-db-press', 3, '8-12', 90, { note: 'скамья 30°' }),
+          s('db-fly', 3, '10-15', 60, { note: 'скамья 30°, вес уменьшать по подходам' }),
+          s('crunch', 3, '15-20', 45, { note: 'секунд' }),
+        ],
+      },
+    ],
+  },
+  {
+    id: 'back-triceps',
+    name: 'Спина + трицепс',
+    goal: 'mass',
+    level: 1,
+    weeks: 8,
+    color: '#5b9dff',
+    icon: 'layers',
+    tagline: 'Ваш сплит: тяги и трицепс',
+    description:
+      'Программа по вашей тренировке: становая, подтягивания, брусья, горизонтальная тяга, разгибания на трицепс, пресс и планка. Дополняет день «Грудь + бицепс».',
+    tips: [
+      'Становая — первым движением, пока есть силы.',
+      'Если подтягивания пока тяжело — используйте гравитрон или резинку.',
+      'Планку держите в конце: 1–2 подхода по 45–60 секунд достаточно.',
+    ],
+    days: [
+      {
+        name: 'Спина + трицепс',
+        focus: 'Спина · Трицепс',
+        items: [
+          s('rdl', 4, '8-10', 150, { note: 'спина прямая, гриф близко' }),
+          s('pull-up', 3, '6-10', 120),
+          s('dips', 3, '8-10', 90),
+          s('seated-row', 3, '10-15', 90),
+          s('pushdown', 3, '10-12', 60),
+          s('hanging-knee-raise', 3, '10-12', 60),
+          s('plank', 2, '45-60', 45, { note: 'секунд' }),
+        ],
       },
     ],
   },
@@ -5538,8 +6008,8 @@ function renderToday() {
       <button class="quick" data-action="open-measure">
         <span class="quick__ic" style="background:rgba(244,114,182,.14);color:#f472b6">${icon('ruler', 20)}</span><span>Замеры</span>
       </button>
-      <button class="quick" data-action="open-timer">
-        <span class="quick__ic" style="background:rgba(255,182,72,.14);color:#ffb648">${icon('timer', 20)}</span><span>Таймер</span>
+      <button class="quick" data-action="open-sport">
+        <span class="quick__ic" style="background:rgba(52,211,153,.14);color:#34d399">${icon('target', 20)}</span><span>Спорт</span>
       </button>
     </div>
   </section>`;
@@ -5928,6 +6398,7 @@ function renderSession() {
     mount() {
       startClock();
       mountRestPill();
+      bindSetInputs();
     },
   };
 }
@@ -5942,6 +6413,9 @@ function itemCard(it, idx, count) {
   const collapsed = !!it.collapsed;
   const target = it.targetReps || '8-12';
   const timeBased = !!ex?.time && ex.group === 'core';
+  const sportMode = ex?.group === 'sport';
+  const wUnit = sportMode ? 'мин' : 'кг';
+  const rUnit = sportMode ? 'мин' : timeBased ? 'сек' : 'повт';
 
   const lastMap = new Map();
   if (last) last.sets.forEach((st, i) => lastMap.set(i, st));
@@ -5949,24 +6423,28 @@ function itemCard(it, idx, count) {
   const rows = it.sets
     .map((set, i) => {
       const prev = lastMap.get(i);
-      const prevTxt = prev ? `${fmtNum(prev.weight)}×${fmtNum(prev.reps)}` : '—';
-      const sugg = suggestionFor(it.exerciseId, target, it.sets.length);
+      const prevTxt = sportMode
+        ? prev ? `${fmtNum(prev.duration || 60)} мин` : '—'
+        : prev ? `${fmtNum(prev.weight)}×${fmtNum(prev.reps)}` : '—';
+      const sugg = sportMode ? { weight: 0, reps: 60 } : suggestionFor(it.exerciseId, target, it.sets.length);
       const weightHint = sugg.weight || (prev && num(prev.weight));
-      const placeholder = done ? '' : weightHint ? `placeholder="${fmtNum(weightHint)}"` : 'placeholder="—"';
+      const placeholder = done ? '' : sportMode ? 'placeholder="60"' : weightHint ? `placeholder="${fmtNum(weightHint)}"` : 'placeholder="—"';
+      const wValue = sportMode ? (set.duration ? fmtNum(set.duration) : '') : (set.weight ? fmtNum(set.weight) : '');
+      const rValue = sportMode ? (set.distance ? fmtNum(set.distance) : '') : (set.reps ? fmtNum(set.reps) : '');
       return `<div class="setrow ${set.done ? 'is-done' : ''}" data-item="${it.id}" data-set="${set.id}">
         <div class="setrow__n">${i + 1}</div>
         <div class="setrow__prev" data-prev="${set.id}" title="Прошлый раз">${prevTxt}</div>
         <div class="setrow__field">
-          <input class="setin" type="number" inputmode="decimal" step="0.5" min="0"
-            data-field-weight data-item="${it.id}" data-set="${set.id}"
-            value="${set.weight ? fmtNum(set.weight) : ''}" ${placeholder}
-            aria-label="Вес" ${set.done ? 'readonly' : ''}>
+          <input class="setin" type="number" inputmode="decimal" step="${sportMode ? 1 : 0.5}" min="0"
+            data-field-${sportMode ? 'duration' : 'weight'} data-item="${it.id}" data-set="${set.id}"
+            value="${wValue}" ${placeholder}
+            aria-label="${sportMode ? 'Минуты' : 'Вес'}" ${set.done ? 'readonly' : ''}>
         </div>
         <div class="setrow__field">
-          <input class="setin" type="number" inputmode="numeric" step="1" min="0"
-            data-field-reps data-item="${it.id}" data-set="${set.id}"
-            value="${set.reps ? fmtNum(set.reps) : ''}"
-            aria-label="${timeBased ? 'Секунды' : 'Повторения'}" ${set.done ? 'readonly' : ''}>
+          <input class="setin" type="number" inputmode="numeric" step="${sportMode ? 0.1 : 1}" min="0"
+            data-field-${sportMode ? 'distance' : 'reps'} data-item="${it.id}" data-set="${set.id}"
+            value="${rValue}"
+            aria-label="${sportMode ? 'Дистанция, км' : timeBased ? 'Секунды' : 'Повторения'}" ${set.done ? 'readonly' : ''}>
         </div>
         <button class="setrow__check ${set.done ? 'is-on' : ''}" data-action="toggle-set"
           data-item="${it.id}" data-set="${set.id}" aria-label="${set.done ? 'Отменить подход' : 'Выполнить подход'}">
@@ -5996,21 +6474,21 @@ function itemCard(it, idx, count) {
         : `<div class="ex-body">
       ${
         last
-          ? `<div class="ex-prev">${icon('history', 13)} <span>Прошлый раз ${fmtDate(last.date)}: ${last.sets
-              .map((x) => `${fmtNum(x.weight)}×${fmtNum(x.reps)}`)
-              .join(', ')}</span></div>`
+          ? `<div class="ex-prev">${icon('history', 13)} <span>Прошлый раз ${fmtDate(last.date)}: ${sportMode
+              ? last.sets.map((x) => `${fmtNum(x.duration || 60)} мин`).join(', ')
+              : last.sets.map((x) => `${fmtNum(x.weight)}×${fmtNum(x.reps)}`).join(', ')}</span></div>`
           : `<div class="ex-prev">${icon('info', 13)} <span>Новое упражнение — запишите свой первый подход</span></div>`
       }
       <div class="setrow setrow--head">
         <div class="setrow__n">#</div>
         <div class="setrow__prev">Прошлый</div>
-        <div class="setrow__field">Вес</div>
-        <div class="setrow__field">${timeBased ? 'Сек' : 'Повт'}</div>
+        <div class="setrow__field">${wUnit}</div>
+        <div class="setrow__field">${rUnit}</div>
         <div style="width:38px"></div>
       </div>
       ${rows}
       <div class="ex-actions">
-        <button class="chip" data-action="add-set" data-item="${it.id}">${icon('plus', 14)} Подход</button>
+        ${sportMode ? '' : `<button class="chip" data-action="add-set" data-item="${it.id}">${icon('plus', 14)} Подход</button>`}
         <button class="chip" data-action="fill-last" data-item="${it.id}">${icon('copy', 14)} Из прошлой</button>
         <button class="chip" data-action="swap-exercise" data-item="${it.id}">${icon('switch', 14)} Заменить</button>
         <button class="chip" data-action="item-menu" data-item="${it.id}">${icon('dots', 14)}</button>
@@ -6018,6 +6496,31 @@ function itemCard(it, idx, count) {
     </div>`
     }
   </div>`;
+}
+
+/* ---------- ввод значений подхода ---------- */
+function bindSetInputs() {
+  const handler = (e) => {
+    const el = e.target;
+    if (!el.classList || !el.classList.contains('setin')) return;
+    const itemId = el.dataset.item;
+    const setId = el.dataset.set;
+    if (!itemId || !setId) return;
+    const patch = {};
+    if ('fieldWeight' in el.dataset) patch.weight = num(el.value);
+    else if ('fieldReps' in el.dataset) patch.reps = num(el.value);
+    else if ('fieldDuration' in el.dataset) patch.duration = num(el.value);
+    else if ('fieldDistance' in el.dataset) patch.distance = num(el.value);
+    if (Object.keys(patch).length) {
+      try {
+        updateSet(itemId, setId, patch);
+      } catch (err) {
+        console.error('set input', err);
+      }
+    }
+  };
+  document.addEventListener('input', handler, { passive: true });
+  document.addEventListener('change', handler, { passive: true });
 }
 
 function fmtNum(v) {
@@ -6632,6 +7135,14 @@ function renderJournal() {
         expandedCal = !expandedCal;
         refresh();
       });
+      for (const b of document.querySelectorAll('[data-cal-jump]')) {
+        b.addEventListener('click', () => {
+          const [y, m] = b.dataset.calJump.split('-').map(Number);
+          monthCursor = new Date(y, m - 1, 1);
+          haptic();
+          refresh();
+        });
+      }
       for (const b of document.querySelectorAll('[data-cal-day]')) {
         b.addEventListener('click', () => {
           const d = b.dataset.calDay;
@@ -6669,6 +7180,61 @@ function calendar(all) {
   const limitWeeks = expandedCal ? weeks : 5;
   const shownDays = days.slice(0, limitWeeks * 7);
 
+  const monthKeys = [...new Set(all.map((w) => (w.date || isoDate(w.startedAt)).slice(0, 7)))].sort().reverse();
+  const monthCount = new Map();
+  for (const w of all) {
+    const k = (w.date || isoDate(w.startedAt)).slice(0, 7);
+    monthCount.set(k, (monthCount.get(k) || 0) + 1);
+  }
+  const curKey = isoDate(monthCursor).slice(0, 7);
+  const isCurrentMonth = curKey === isoDate(new Date()).slice(0, 7);
+
+  return `<div class="card cal">
+    <div class="cal__head">
+      <button class="cal__nav" data-cal-nav="-1" aria-label="Предыдущий месяц">${icon('chevronLeft', 18)}</button>
+      <div class="cal__month">${monthLabel(curKey)}</div>
+      <button class="cal__nav" data-cal-nav="1" aria-label="Следующий месяц">${icon('chevronRight', 18)}</button>
+    </div>
+    ${
+      monthKeys.length > 1
+        ? `<div class="cal__months">
+            ${isCurrentMonth ? '' : `<button class="cal__jump" data-cal-jump="${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}">Сегодня</button>`}
+            ${monthKeys.map((k) => `<button class="cal__month-chip ${k === curKey ? 'is-on' : ''}" data-cal-jump="${k}">
+              ${monthShort(k)} <span class="cal__month-n">${monthCount.get(k)}</span>
+            </button>`).join('')}
+          </div>`
+        : ''
+    }
+    <div class="cal__weekdays">${['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'].map((d) => `<span>${d}</span>`).join('')}</div>
+    <div class="cal__grid">
+      ${shownDays
+        .map((d) => {
+          if (!d) return '<span class="cal__cell cal__cell--empty"></span>';
+          const iso = isoDate(d);
+          const tr = trainedDays.get(iso);
+          const isToday = iso === todayIso;
+          const future = iso > todayIso;
+          const level = tr ? Math.max(0.3, Math.min(1, tr.vol / maxVol)) : 0;
+          return `<button class="cal__cell ${isToday ? 'is-today' : ''} ${tr ? 'has-workout' : ''} ${future ? 'is-future' : ''}"
+            data-cal-day="${iso}" ${tr ? '' : 'disabled'}
+            aria-label="${fmtDate(d)}${tr ? ', тренировка' : ''}"
+            style="${tr ? '--lvl:' + level.toFixed(2) : ''}">
+            ${d.getDate()}
+          </button>`;
+        })
+        .join('')}
+    </div>
+    ${
+      weeks > 5
+        ? `<button class="cal__more" data-cal-toggle>${expandedCal ? 'Свернуть' : 'Показать все дни'} ${icon(expandedCal ? 'chevronUp' : 'chevronDown', 15)}</button>`
+        : ''
+    }
+    <div class="cal__foot">
+      ${trainedDays.size ? `В этом месяце: ${[...trainedDays.keys()].filter((k) => k.startsWith(curKey)).length} из ${all.length} тренировок` : `В этом месяце тренировок нет — переключите месяц выше`}
+    </div>
+  </div>`;
+
+
   return `<div class="card cal">
     <div class="cal__head">
       <button class="cal__nav" data-cal-nav="-1">${icon('chevronLeft', 18)}</button>
@@ -6699,6 +7265,12 @@ function calendar(all) {
         : ''
     }
   </div>`;
+}
+
+function monthShort(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  const names = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  return names[m - 1] + ' ' + String(y).slice(2);
 }
 
 function journalRow(w) {
@@ -6828,6 +7400,338 @@ function renderWorkoutDetail(params) {
     mount() {},
   };
 }
+
+/* ===== js\body-map.js ===== */
+/* ============================================================
+   Карта мышц: фигура человека (спереди и сзади) с подсветкой
+   групп пропорционально проценту нагрузки.
+
+   Фигура строится из «скелета»: сначала тело, затем мышцы —
+   поэтому части всегда совпадают.
+   ============================================================ */
+
+
+const W = 214;
+const H = 520;
+
+/* ---------- геометрия (viewBox 220×520, фигура по центру) ---------- */
+const GEO = {
+  head: { cx: 110, cy: 36, rx: 16, ry: 19 },
+  neck: { x1: 110, y1: 50, x2: 110, y2: 72 },
+  // плечи / талия / бёдра
+  shoulders: { y: 80, x1: 72, x2: 148 },
+  chest: { y: 128, x1: 82, x2: 138 },
+  waist: { y: 172, x1: 90, x2: 130 },
+  hips: { y: 208, x1: 86, x2: 134 },
+  // руки
+  armL: [
+    [78, 92],
+    [72, 156],
+    [68, 224],
+  ],
+  armR: [
+    [142, 92],
+    [148, 156],
+    [152, 224],
+  ],
+  handL: { cx: 67, cy: 236, rx: 9, ry: 11 },
+  handR: { cx: 153, cy: 236, rx: 9, ry: 11 },
+  // ноги
+  legL: [
+    [98, 216],
+    [97, 300],
+    [96, 366],
+    [95, 446],
+  ],
+  legR: [
+    [122, 216],
+    [123, 300],
+    [124, 366],
+    [125, 446],
+  ],
+  footL: { cx: 92, cy: 460, rx: 16, ry: 9 },
+  footR: { cx: 128, cy: 460, rx: 16, ry: 9 },
+};
+
+const TORSO_PATH = `M110 74
+  C 90 74, 72 80, 66 92
+  C 60 104, 70 120, 75 136
+  C 80 152, 88 168, 88 184
+  C 88 198, 84 208, 80 220
+  L 140 220
+  C 138 208, 132 198, 132 184
+  C 132 168, 140 152, 145 136
+  C 150 120, 160 104, 154 92
+  C 148 80, 130 74, 110 74 Z`;
+
+const strokeLine = (pts, w) =>
+  `<path d="M${pts.map(([x, y]) => `${x} ${y}`).join(' L')}" fill="none" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+/* ---------- мышцы ---------- */
+function frontMuscles(pct, colorOf) {
+  const s = (g) => {
+    const p = pct[g] || 0;
+    const color = colorOf(g);
+    const on = p > 0;
+    return `fill="${color}" fill-opacity="${on ? (0.18 + (p / 100) * 0.78).toFixed(3) : 0.04}" stroke="${color}" stroke-opacity="${on ? 0.5 : 0.08}" stroke-width="1"`;
+  };
+  return `
+  <g class="muscle muscle--chest">
+    <path ${s('chest')} d="M84 112c-2 9 3 16 12 17h10v-19c-8-2-16-1-22 2Z"/>
+    <path ${s('chest')} d="M136 112c2 9-3 16-12 17h-10v-19c8-2 16-1 22 2Z"/>
+  </g>
+  <g class="muscle muscle--shoulders">
+    <ellipse ${s('shoulders')} cx="74" cy="98" rx="12" ry="10"/>
+    <ellipse ${s('shoulders')} cx="146" cy="98" rx="12" ry="10"/>
+  </g>
+  <g class="muscle muscle--arms">
+    ${strokeLine([[76, 106], [72, 148]], 20).replace('<path', `<path ${s('arms')}`)}
+    ${strokeLine([[144, 106], [148, 148]], 20).replace('<path', `<path ${s('arms')}`)}
+    ${strokeLine([[71, 162], [68, 206]], 16).replace('<path', `<path ${s('arms')}`)}
+    ${strokeLine([[149, 162], [152, 206]], 16).replace('<path', `<path ${s('arms')}`)}
+  </g>
+  <g class="muscle muscle--core">
+    <path ${s('core')} d="M98 136h24v58H98z"/>
+    <path ${s('core')} d="M88 142c-3 14-2 34 1 50l7 3 1-53h-9Z"/>
+    <path ${s('core')} d="M132 142c3 14 2 34-1 50l-7 3-1-53h9Z"/>
+  </g>
+  <g class="muscle muscle--legs">
+    ${strokeLine([[99, 224], [98, 292]], 38).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[121, 224], [122, 292]], 38).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[96, 310], [95, 366]], 32).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[124, 310], [125, 366]], 32).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[95, 378], [94, 432]], 22).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[125, 378], [126, 432]], 22).replace('<path', `<path ${s('legs')}`)}
+  </g>`;
+}
+
+function backMuscles(pct, colorOf) {
+  const s = (g) => {
+    const p = pct[g] || 0;
+    const color = colorOf(g);
+    const on = p > 0;
+    return `fill="${color}" fill-opacity="${on ? (0.18 + (p / 100) * 0.78).toFixed(3) : 0.04}" stroke="${color}" stroke-opacity="${on ? 0.5 : 0.08}" stroke-width="1"`;
+  };
+  return `
+  <g class="muscle muscle--back">
+    <path ${s('back')} d="M84 108c-8 8-10 22-8 38 2 16 7 32 14 46l6 6 5-18 9 16 9-16 5 18 6-6c7-14 12-30 14-46 2-16 0-30-8-38l-26 22-26-22Z"/>
+  </g>
+  <g class="muscle muscle--shoulders">
+    <ellipse ${s('shoulders')} cx="74" cy="98" rx="13" ry="11"/>
+    <ellipse ${s('shoulders')} cx="146" cy="98" rx="13" ry="11"/>
+  </g>
+  <g class="muscle muscle--arms">
+    ${strokeLine([[76, 106], [72, 148]], 20).replace('<path', `<path ${s('arms')}`)}
+    ${strokeLine([[144, 106], [148, 148]], 20).replace('<path', `<path ${s('arms')}`)}
+    ${strokeLine([[71, 162], [68, 206]], 16).replace('<path', `<path ${s('arms')}`)}
+    ${strokeLine([[149, 162], [152, 206]], 16).replace('<path', `<path ${s('arms')}`)}
+  </g>
+  <g class="muscle muscle--glutes">
+    <path ${s('glutes')} d="M80 208c-3 12 2 22 12 24h8v-26l-20 2Z"/>
+    <path ${s('glutes')} d="M140 208c3 12-2 22-12 24h-8v-26l20 2Z"/>
+  </g>
+  <g class="muscle muscle--legs">
+    ${strokeLine([[99, 224], [98, 292]], 38).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[121, 224], [122, 292]], 38).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[96, 310], [95, 366]], 32).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[124, 310], [125, 366]], 32).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[95, 378], [94, 432]], 22).replace('<path', `<path ${s('legs')}`)}
+    ${strokeLine([[125, 378], [126, 432]], 22).replace('<path', `<path ${s('legs')}`)}
+  </g>`;
+}
+
+const BODY = `
+  <g class="body-base" fill="url(#bm-body)" stroke="rgba(255,255,255,.18)" stroke-width="1.1" stroke-linejoin="round">
+    <ellipse cx="${GEO.head.cx}" cy="${GEO.head.cy}" rx="${GEO.head.rx}" ry="${GEO.head.ry}"/>
+    <path d="M101 50h18v30h-18z"/>
+    <path d="${TORSO_PATH}"/>
+    ${strokeLine(GEO.armL, 22)}
+    ${strokeLine(GEO.armR, 22)}
+    <ellipse cx="${GEO.handL.cx}" cy="${GEO.handL.cy}" rx="${GEO.handL.rx}" ry="${GEO.handL.ry}"/>
+    <ellipse cx="${GEO.handR.cx}" cy="${GEO.handR.cy}" rx="${GEO.handR.rx}" ry="${GEO.handR.ry}"/>
+    ${strokeLine(GEO.legL, 38)}
+    ${strokeLine(GEO.legR, 38)}
+    <ellipse cx="${GEO.footL.cx}" cy="${GEO.footL.cy}" rx="${GEO.footL.rx}" ry="${GEO.footL.ry}"/>
+    <ellipse cx="${GEO.footR.cx}" cy="${GEO.footR.cy}" rx="${GEO.footR.rx}" ry="${GEO.footR.ry}"/>
+  </g>`;
+
+/**
+ * @param {Record<string, number>} pct — проценты по группам
+ * @param {Record<string, string>} colors — цвета групп
+ */
+function bodyMapSvg(pct = {}, colors = {}) {
+  const c = (g) => colors[g] || GROUPS[g]?.color || '#c6f24a';
+  const p = (g) => Math.max(0, Math.min(100, pct[g] || 0));
+
+  return `<svg class="bodymap" viewBox="0 0 440 530" role="img" aria-label="Карта нагрузки по мышцам">
+    <defs>
+      <linearGradient id="bm-body" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#39424f"/>
+        <stop offset="1" stop-color="#1c222b"/>
+      </linearGradient>
+    </defs>
+    <g class="bodymap__figure bodymap__figure--front">${BODY}${frontMuscles(pct, c)}
+      <text x="110" y="516" text-anchor="middle" class="bodymap__cap">спереди</text>
+    </g>
+    <g class="bodymap__figure bodymap__figure--back" transform="translate(220 0)">${BODY}${backMuscles(pct, c)}
+      <text x="110" y="516" text-anchor="middle" class="bodymap__cap">сзади</text>
+    </g>
+  </svg>`;
+}
+
+/* ===== js\anatomy.js ===== */
+/* ============================================================
+   Карта мышц: фигура человека, мышцы показаны плоскими
+   анатомическими блоками (как в фитнес-инфографике).
+   Вид спереди. viewBox 320×560.
+   ============================================================ */
+
+
+const C = {
+  skin: '#d7dae2',
+  skinDark: '#c2c7d2',
+  line: '#9aa1b2',
+  shadow: '#b9bfcb',
+};
+
+const COLORS = {
+  cold: '#6f5b9e',
+  cool: '#8f6fd6',
+  warm: '#b76fd9',
+  hot: '#e06b9b',
+  glow: '#f08aae',
+};
+
+function tone(pct) {
+  if (pct >= 35) return COLORS.hot;
+  if (pct >= 20) return COLORS.warm;
+  if (pct >= 8) return COLORS.cool;
+  return COLORS.cold;
+}
+function alpha(pct) {
+  if (pct <= 0) return 0.12;
+  return Math.min(0.92, 0.32 + pct / 90);
+}
+
+/* ---------- тело ---------- */
+function body() {
+  return `
+  <g class="body" stroke="${C.line}" stroke-width="1.4" stroke-linejoin="round">
+    <!-- голова -->
+    <path fill="${C.skin}" d="M160 22c-15 0-25 11-25 26 0 16 11 28 25 28s25-12 25-28c0-15-10-26-25-26Z"/>
+    <!-- шея -->
+    <path fill="${C.skinDark}" d="M146 72h28v20h-28z"/>
+    <!-- торс: плечи 120..200, талия 140..180, бёдра 132..188 -->
+    <path fill="${C.skin}" d="M160 88c-20 0-36 3-48 10-9 5-13 13-15 23l-6 40c-2 13-2 25 0 37 2 12 5 22 9 32l5 12h110l5-12c4-10 7-20 9-32 2-12 2-24 0-37l-6-40c-2-10-6-18-15-23-12-7-28-10-48-10Z"/>
+    <!-- дельты -->
+    <ellipse fill="${C.skin}" cx="114" cy="106" rx="17" ry="18"/>
+    <ellipse fill="${C.skin}" cx="206" cy="106" rx="17" ry="18"/>
+    <!-- руки -->
+    <path fill="${C.skin}" d="M104 122c-6 15-9 33-10 52-1 18 0 35 2 50l3 20h25l-2-24-1-48 3-50h-20Z"/>
+    <path fill="${C.skin}" d="M216 122c6 15 9 33 10 52 1 18 0 35-2 50l-3 20h-25l2-24 1-48-3-50h20Z"/>
+    <!-- кисти -->
+    <path fill="${C.skinDark}" d="M100 244c-2 13-2 24 0 31 2 8 7 12 13 12s11-4 12-12c2-7 2-18 0-31h-25Z"/>
+    <path fill="${C.skinDark}" d="M220 244c2 13 2 24 0 31-2 8-7 12-13 12s-11-4-12-12c-2-7-2-18 0-31h25Z"/>
+    <!-- ноги -->
+    <path fill="${C.skin}" d="M160 238c-12 0-24 1-32 4-8 22-12 47-13 71-1 23 0 44 2 63l3 34h37l3-38c3-20 4-42 3-62-1-25-6-47-12-64l6-2Z"/>
+    <path fill="${C.skin}" d="M160 238c12 0 24 1 32 4 8 22 12 47 13 71 1 23 0 44-2 63l-3 34h-37l-3-38c-3-20-4-42-3-62 1-25 6-47 12-64l-6-2Z"/>
+    
+    <!-- разделитель ног -->
+    <!-- стопы -->
+  </g>`;
+}
+
+/* ---------- мышцы ---------- */
+function musclePath(pct, d, extra = '') {
+  const c = tone(pct);
+  return `<path d="${d}" fill="${c}" fill-opacity="${alpha(pct).toFixed(2)}" stroke="${c}" stroke-opacity="0.45" stroke-width="1.2" ${extra}/>`;
+}
+
+function muscles(pct) {
+  const p = (g) => pct[g] || 0;
+  return `
+  <!-- трапеции -->
+  ${musclePath(p('shoulders'), 'M160 88c-14 0-27 3-38 8 9 10 23 16 38 16s29-6 38-16c-11-5-24-8-38-8Z')}
+
+  <!-- грудные -->
+  ${musclePath(p('chest'), 'M157 108c-15-3-28 1-36 10-6 7-8 15-8 24 0 12 6 21 16 25 8 3 18 2 28-2v-57Z')}
+  ${musclePath(p('chest'), 'M163 108c15-3 28 1 36 10 6 7 8 15 8 24 0 12-6 21-16 25-8 3-18 2-28-2v-57Z')}
+
+  <!-- дельты -->
+  ${musclePath(p('shoulders'), 'M114 88c-10 2-17 10-20 20-3 10-4 21-4 31l16 3 5-30 3-24Z')}
+  ${musclePath(p('shoulders'), 'M206 88c10 2 17 10 20 20 3 10 4 21 4 31l-16 3-5-30-3-24Z')}
+
+  <!-- бицепсы -->
+  ${musclePath(p('arms'), 'M113 132c-6 15-9 33-10 51l17 3c2-18 5-36 8-50l-15-4Z')}
+  ${musclePath(p('arms'), 'M207 132c6 15 9 33 10 51l-17 3c-2-18-5-36-8-50l15-4Z')}
+
+  <!-- предплечья -->
+  ${musclePath(p('arms'), 'M106 192c-2 18-2 36-1 50l3 18 14-2-3-22-1-44h-12Z')}
+  ${musclePath(p('arms'), 'M214 192c2 18 2 36 1 50l-3 18-14-2 3-22 1-44h12Z')}
+
+  <!-- пресс -->
+  ${musclePath(p('core'), 'M149 158h22v18h-22z')}
+  ${musclePath(p('core'), 'M149 180h22v18h-22z')}
+  ${musclePath(p('core'), 'M149 202h22v18h-22z')}
+  ${musclePath(p('core'), 'M145 224h30l-4 16h-22l-4-16Z')}
+
+  <!-- косые -->
+  ${musclePath(p('core'), 'M134 164c-4 20-5 41-3 58l15 8 2-66h-14Z')}
+  ${musclePath(p('core'), 'M186 164c4 20 5 41 3 58l-15 8-2-66h14Z')}
+
+  <!-- квадрицепсы -->
+  ${musclePath(p('legs'), 'M147 252c-6 26-9 54-10 82l24 2 3-84h-17Z')}
+  ${musclePath(p('legs'), 'M173 252c6 26 9 54 10 82l-24 2-3-84h17Z')}
+  ${musclePath(p('legs'), 'M149 350c-2 22-2 44-1 64h10l1-64h-10Z')}
+  ${musclePath(p('legs'), 'M171 350c2 22 2 44 1 64h-10l-1-64h10Z')}
+
+  <!-- ягодицы (спереди — линия паха) -->
+  ${musclePath(p('glutes'), 'M143 248h34l-2 12h-30l-2-12Z')}`;
+}
+
+/**
+ * @param {Record<string, number>} pct
+ * @param {Array<{key:string,x:number,y:number,side:'l'|'r',pct:number}>} labels
+ */
+function anatomySvg(pct = {}, labels = []) {
+  const labelHtml = labels
+    .map((l) => {
+      const endX = l.side === 'l' ? 40 : 280;
+      const midX = l.side === 'l' ? 84 : 236;
+      return `<g class="bm-label">
+        <path d="M${l.x} ${l.y} L${midX} ${l.y} L${endX} ${l.y}" fill="none" stroke="${tone(l.pct)}" stroke-opacity=".6" stroke-width="1"/>
+        <circle cx="${l.x}" cy="${l.y}" r="2.6" fill="${tone(l.pct)}" stroke="#0b0c0f" stroke-width="1"/>
+        <text x="${l.side === 'l' ? endX + 6 : endX - 6}" y="${l.y + 4}" text-anchor="${l.side === 'l' ? 'start' : 'end'}" class="bm-label__txt">${Math.round(l.pct)}%</text>
+      </g>`;
+    })
+    .join('');
+
+  return `<svg class="anatomy" viewBox="0 0 320 560" role="img" aria-label="Карта нагрузки по мышцам">
+    <defs>
+      <radialGradient id="bm-glow" cx="50%" cy="40%" r="55%">
+        <stop offset="0" stop-color="#8f6fd6" stop-opacity=".16"/>
+        <stop offset="1" stop-color="#8f6fd6" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="160" cy="270" rx="150" ry="250" fill="url(#bm-glow)"/>
+    ${body()}
+    ${muscles(pct)}
+    ${labelHtml}
+  </svg>`;
+}
+
+const LABEL_META = [
+  { key: 'shoulders', x: 120, y: 104, side: 'l' },
+  { key: 'chest', x: 140, y: 122, side: 'l' },
+  { key: 'arms', x: 108, y: 170, side: 'l' },
+  { key: 'core', x: 152, y: 196, side: 'l' },
+  { key: 'legs', x: 140, y: 340, side: 'l' },
+  { key: 'glutes', x: 152, y: 252, side: 'r' },
+  { key: 'shoulders', x: 200, y: 104, side: 'r' },
+  { key: 'arms', x: 212, y: 170, side: 'r' },
+  { key: 'core', x: 168, y: 196, side: 'r' },
+  { key: 'legs', x: 178, y: 400, side: 'r' },
+];
 
 /* ===== js\views\measure.js ===== */
 /* ============================================================
@@ -7138,6 +8042,9 @@ function viewAllPhotos() {
 
 
 
+
+
+
 let period = 'month';
 
 const PERIODS = [
@@ -7163,6 +8070,10 @@ function renderProgress() {
   const streak = currentStreak();
   const measurements = measurementSeries();
   const lastM = measurements[measurements.length - 1];
+  const load = muscleLoad(from, isoDate(new Date()));
+  const pctMap = Object.fromEntries(load.groups.map((g) => [g.group, g.pct]));
+  const sportPct = load.groups.filter((g) => g.group === 'sport' || g.group === 'cardio').reduce((a, g) => a + g.pct, 0);
+  const sports = sportBreakdown(from, isoDate(new Date()));
 
   const body = `
     <div class="pad" style="margin-top:6px">
@@ -7197,12 +8108,57 @@ function renderProgress() {
       </div>
     </div>
 
-    <div class="section-title"><h2>Нагрузка по группам</h2><span class="muted">подходы</span></div>
+    <div class="section-title"><h2>Нагрузка по группам</h2><span class="muted">% от всей нагрузки</span></div>
     <div class="pad">
-      <div class="card card--pad">
-        ${groupBars(gv)}
+      <div class="card card--pad bodymap-card">
+        <div class="anatomy-wrap">
+          ${anatomySvg(
+            Object.fromEntries(MUSCLE_GROUPS.map((g) => [g, pctMap[g] || 0])),
+            LABEL_META.map((m) => ({ ...m, pct: pctMap[m.key] || 0 }))
+          )}
+        </div>
+        <div class="anatomy-caption">
+          <span class="anatomy-caption__dot"></span>
+          <span>${load.workouts} ${plural(load.workouts, "тренировка", "тренировки", "тренировок")} · ${periodLabel(period).toLowerCase()}</span>
+        </div>
+        <div class="bodymap-legend">
+          ${load.groups
+            .filter((x) => x.group !== "cardio" && x.group !== "sport")
+            .map(
+              (x) => `<div class="bm-row">
+                <span class="bm-dot" style="background:${GROUPS[x.group].color}"></span>
+                <span class="bm-name">${GROUPS[x.group].label}</span>
+                <span class="bm-pct num">${Math.round(x.pct)}%</span>
+                <span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, x.pct * 2)}%;background:${GROUPS[x.group].color}"></span></span>
+              </div>`
+            )
+            .join("")}
+          ${load.sportSeconds ? `<div class="bm-row bm-row--sport"><span class="bm-dot" style="background:${GROUPS.sport.color}"></span><span class="bm-name">Спорт</span><span class="bm-pct num">${Math.round(sportPct)}%</span><span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, sportPct * 2)}%;background:${GROUPS.sport.color}"></span></span></div>` : ""}
+        </div>
       </div>
+      ${load.workouts === 0 ? '<div class="hint-box" style="margin-top:10px">Нет данных за период — проведите тренировку или добавьте спорт.</div>' : ""}
     </div>
+
+    ${
+      sports.length
+        ? `<div class="section-title"><h2>Спорт за период</h2><span class="muted">${fmtMinutes(load.sportSeconds)}</span></div>
+        <div class="pad"><div class="card card--pad">
+          ${sports
+            .map(
+              (sp) => `<div class="gbar">
+                <span class="gbar__dot" style="background:${GROUPS.sport.color}"></span>
+                <span class="gbar__label" style="width:auto;flex:1">${escapeHtml(sp.name)}</span>
+                <span class="gbar__val num" style="width:auto">${fmtMinutes(sp.minutes * 60)}</span>
+                <span class="badge" style="margin-left:8px">${sp.sessions}</span>
+              </div>`
+            )
+            .join("")}
+          <button class="btn btn--soft btn--sm btn--block" style="margin-top:10px" data-action="open-sport">${icon("plus", 15)} Добавить спорт</button>
+        </div></div>`
+        : `<div class="pad" style="margin-top:10px">
+            <button class="btn btn--outline btn--block" data-action="open-sport">${icon("plus", 17)} Добавить спорт</button>
+          </div>`
+    }
 
     ${
       top.length
@@ -7706,6 +8662,18 @@ function renderProfile() {
             <span class="list__sub">JSON-файл Атлета</span></span>
           ${icon('chevronRight', 18, 'list__chev')}
         </button>
+        <button class="list__row" data-action="export-programs">
+          <span class="list__icon">${icon('layers', 18)}</span>
+          <span class="grow"><span class="list__label" style="display:block">Экспорт программ</span>
+            <span class="list__sub">Файл со всеми программами тренировок</span></span>
+          ${icon('chevronRight', 18, 'list__chev')}
+        </button>
+        <button class="list__row" data-action="import-programs">
+          <span class="list__icon">${icon('upload', 18)}</span>
+          <span class="grow"><span class="list__label" style="display:block">Импорт программ</span>
+            <span class="list__sub">Добавить программы из файла</span></span>
+          ${icon('chevronRight', 18, 'list__chev')}
+        </button>
         <button class="list__row" data-action="import-history">
           <span class="list__icon list__icon--accent">${icon('history', 18)}</span>
           <span class="grow"><span class="list__label" style="display:block">Импорт истории тренировок</span>
@@ -7906,6 +8874,48 @@ function aboutSheet() {
       <p class="muted" style="font-size:12.5px">Приложение не заменяет тренера и врача. Перед началом занятий проконсультируйтесь со специалистом.</p>
     </div>`,
   });
+}
+
+/* ---------- программы: экспорт / импорт ---------- */
+function doExportPrograms() {
+  const list = (state.programs || []).map((p) => ({ ...p }));
+  const payload = {
+    app: 'atlet-programs',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    count: list.length,
+    programs: list,
+  };
+  download(`atlet-programmy-${isoDate(new Date())}.json`, JSON.stringify(payload, null, 2));
+  toast(`Экспортировано программ: ${list.length}`);
+}
+
+function doImportPrograms() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.onchange = async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      const list = Array.isArray(data) ? data : data.programs;
+      if (!Array.isArray(list) || !list.length) {
+        toast("В файле нет программ", "danger");
+        return;
+      }
+      const have = new Set((state.programs || []).map((p) => p.id));
+      const fresh = list.filter((p) => p && p.id && p.name && !have.has(p.id));
+      state.programs = [...(state.programs || []), ...fresh];
+      save({ immediate: true });
+      toast(fresh.length ? `Добавлено программ: ${fresh.length}` : "Все программы уже есть");
+      refresh();
+    } catch (e) {
+      console.error(e);
+      toast("Не удалось прочитать файл программ", "danger");
+    }
+  };
+  input.click();
 }
 
 /* ---------- операции с данными ---------- */
@@ -8678,6 +9688,42 @@ const IMPORT_EXAMPLE = `12.11.2026
 Вес: 82.5 кг
 Талия: 87 см`;
 
+const LABELS = { chest: 'Грудь', back: 'Спина', legs: 'Ноги', glutes: 'Ягодицы', shoulders: 'Плечи', arms: 'Руки', core: 'Пресс', cardio: 'Кардио', sport: 'Спорт' };
+const GENERIC_NAME = /^(Тренировка|Импорт|Грудь \+ Руки|Ноги \+ Спина|Грудь \+ Спина|Ноги \+ Руки|Спина \+ Руки|Грудь \+ Плечи|Ноги \+ Ягодицы)$/;
+
+/** Имя тренировки по двум самым нагруженным группам мышц */
+function workoutNameByGroups(w) {
+  const sets = new Map();
+  for (const it of w.items || []) {
+    if (it.exerciseId && it.exerciseId.startsWith('sport-')) {
+      sets.set('sport', (sets.get('sport') || 0) + 3);
+      continue;
+    }
+    const g = exerciseGroup(it.exerciseId);
+    const n = (it.sets || []).filter((x) => x.done).length || (it.sets || []).length;
+    sets.set(g, (sets.get(g) || 0) + n);
+  }
+  const top = [...sets.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([g]) => LABELS[g]).filter(Boolean);
+  return top.join(' + ') || 'Тренировка';
+}
+
+/** Исправляет имена уже импортированных записей «Тренировка» → по группам мышц */
+function fixNoNameWorkouts() {
+  const labels = { chest: 'Грудь', back: 'Спина', legs: 'Ноги', glutes: 'Ягодицы', shoulders: 'Плечи', arms: 'Руки', core: 'Пресс', cardio: 'Кардио', sport: 'Спорт' };
+  let fixed = 0;
+  for (const w of state.workouts || []) {
+    if (!w.imported && w.name && !GENERIC_NAME.test(w.name)) continue;
+    if (w.name && !GENERIC_NAME.test(w.name) && w.name !== 'Тренировка') continue;
+    const name = workoutNameByGroups(w);
+    if (name && name !== w.name) {
+      w.name = name;
+      fixed++;
+    }
+  }
+  if (fixed) save({ immediate: true });
+  return fixed;
+}
+
 function openImporter() {
   const sh = sheet({
     title: 'Импорт истории',
@@ -8830,6 +9876,12 @@ function openImporter() {
       if (parsed?.unknown?.length) adoptUnknown(parsed);
       list = buildWorkouts(parsed);
     }
+    // осмысленные названия: по самым нагруженным группам
+    for (const w of list) {
+      if (!w.name || GENERIC_NAME.test(w.name) || w.name === 'Импорт') {
+        w.name = workoutNameByGroups(w);
+      }
+    }
     if (!list.length) return;
     const replaceEl = sh.el.querySelector('[data-im-replace]');
     const replace = !!replaceEl?.checked;
@@ -8930,10 +9982,182 @@ function normalizeForeignWorkout(raw) {
   };
 }
 
+/* ===== js\views\sport.js ===== */
+/* ============================================================
+   Выбор вида спорта и добавление в дневник
+   ============================================================ */
+
+
+
+
+
+
+
+
+/** Иконка по виду спорта */
+function sportIcon(id) {
+  if (id.includes('football') || id.includes('hockey')) return 'target';
+  if (id.includes('volleyball') || id.includes('basketball')) return 'target';
+  if (id.includes('tennis') || id.includes('badminton')) return 'switch';
+  if (id.includes('swimming')) return 'volume';
+  if (id.includes('running') || id.includes('hiking')) return 'trendUp';
+  if (id.includes('cycling')) return 'repeat';
+  if (id.includes('martial')) return 'bolt';
+  if (id.includes('dance')) return 'sparkles';
+  if (id.includes('yoga')) return 'heart';
+  return 'target';
+}
+
+function openSportPicker({ onPick = null } = {}) {
+  const body = `<div class="sport-grid">
+    ${SPORTS.map(
+      (s) => `<button class="sport-pick" data-sport="${s.id}">
+        <span class="sport-pick__ic">${icon(sportIcon(s.id), 18)}</span>
+        <span class="grow">${escapeHtml(s.name)}
+          <span class="sport-pick__meta">${Object.keys(s.load).filter((g) => g !== 'cardio').length} групп мышц${s.dist ? ' · дистанция' : ''}</span>
+        </span>
+      </button>`
+    ).join('')}
+  </div>`;
+  const sh = sheet({
+    title: 'Добавить спорт',
+    sub: 'Футбол, волейбол, теннис и другие активности',
+    body,
+  });
+  for (const b of sh.el.querySelectorAll('[data-sport]')) {
+    b.addEventListener('click', () => {
+      const sport = SPORTS.find((s) => s.id === b.dataset.sport);
+      if (!sport) return;
+      sh.close('pick');
+      if (onPick) onPick(sport);
+      else askDurationAndStart(sport);
+    });
+  }
+  return sh;
+}
+
+/** Спрашивает длительность и создаёт тренировку со спортом */
+function askDurationAndStart(sport) {
+  let minutes = 60;
+  const body = `<div class="sport-duration">
+      <button class="chip" data-dur="-15">−15</button>
+      <div class="sport-duration__val" data-dur-val>${minutes}<small>мин</small></div>
+      <button class="chip" data-dur="15">+15</button>
+    </div>
+    <div class="chip-row" style="justify-content:center;margin-top:6px">
+      ${[30, 45, 60, 90, 120].map((m) => `<button class="chip ${m === minutes ? 'is-on' : ''}" data-dur-set="${m}">${m} мин</button>`).join('')}
+    </div>
+    ${sport.dist ? `<div class="field" style="margin-top:16px"><div class="field__label">Дистанция, км</div>
+      <input class="input" type="number" inputmode="decimal" step="0.1" min="0" data-field="dist" placeholder="0"></div>` : ''}
+    <div class="hint-box" style="margin-top:16px">${icon('info', 16)}<span>Длительность пойдёт в общий объём и в нагрузку по группам мышц: ${Object.entries(sport.load)
+      .filter(([g]) => g !== 'cardio')
+      .map(([g, v]) => `${groupLabel(g)} ${Math.round(v * 100)}%`)
+      .join(', ')}</span></div>`;
+  const sh = sheet({
+    title: escapeHtml(sport.name),
+    sub: 'Сколько длилась активность?',
+    body,
+    foot: `<button class="btn btn--soft" data-close>Отмена</button><button class="btn btn--primary" data-start>${icon('play', 17)} Записать</button>`,
+  });
+  const valEl = sh.el.querySelector('[data-dur-val]');
+  const render = () => {
+    valEl.innerHTML = `${minutes}<small>мин</small>`;
+    for (const b of sh.el.querySelectorAll('[data-dur-set]')) {
+      b.classList.toggle('is-on', Number(b.dataset.durSet) === minutes);
+    }
+  };
+  for (const b of sh.el.querySelectorAll('[data-dur]')) {
+    b.addEventListener('click', () => {
+      minutes = Math.max(5, Math.min(300, minutes + Number(b.dataset.dur)));
+      render();
+    });
+  }
+  for (const b of sh.el.querySelectorAll('[data-dur-set]')) {
+    b.addEventListener('click', () => {
+      minutes = Number(b.dataset.durSet);
+      render();
+    });
+  }
+  sh.el.querySelector('[data-start]').addEventListener('click', () => {
+    const dist = Number(sh.el.querySelector('[data-field="dist"]')?.value) || 0;
+    sh.close('start');
+    recordSport(sport, minutes, dist);
+  });
+  render();
+  return sh;
+}
+
+/** Создаёт запись о спорте: тренировка с одним «упражнением»-спортом */
+function recordSport(sport, minutes, distance = 0, dateIso = null) {
+  const date = dateIso || isoDate(new Date());
+  const startedAt = new Date().getTime() - minutes * 60000;
+  const workout = {
+    id: uid('w'),
+    name: sport.name,
+    programId: null,
+    dayIndex: null,
+    date,
+    startedAt,
+    finishedAt: Date.now(),
+    notes: '',
+    items: [
+      {
+        id: uid('it'),
+        exerciseId: sport.id,
+        note: '',
+        rest: null,
+        targetSets: 1,
+        targetReps: '60',
+        sets: [
+          {
+            id: uid('s'),
+            weight: 0,
+            reps: 1,
+            duration: minutes,
+            distance: distance || 0,
+            done: true,
+            completedAt: Date.now(),
+          },
+        ],
+      },
+    ],
+  };
+  state.workouts = [workout, ...(state.workouts || [])].sort((a, b) => b.startedAt - a.startedAt);
+  save({ immediate: true });
+  toast(`${sport.name} · ${minutes} мин записано`);
+  return workout;
+}
+
+function groupLabel(g) {
+  return (
+    {
+      chest: 'грудь',
+      back: 'спина',
+      shoulders: 'плечи',
+      arms: 'руки',
+      core: 'пресс',
+      glutes: 'ягодицы',
+      legs: 'ноги',
+    }[g] || g
+  );
+}
+
+/** Добавить спорт в текущую активную тренировку */
+function addSportToSession(sport) {
+  const s = activeSession();
+  if (!s) {
+    toast('Сначала начните тренировку', 'info');
+    return;
+  }
+  addExercise(sport.id, { sets: 1, reps: '60' });
+  toast('Добавлено в тренировку');
+}
+
 /* ===== js\main.js ===== */
 /* ============================================================
    Атлет — точка входа
    ============================================================ */
+
 
 
 
@@ -8983,6 +10207,13 @@ if (!state.programs || !state.programs.length) {
     state.programs = [...missing.map((p) => normalizeProgram({ ...p, preset: true })), ...state.programs];
     save({ immediate: true });
   }
+}
+
+/* ---------- починка названий старых импортов ---------- */
+try {
+  fixNoNameWorkouts();
+} catch (e) {
+  console.error('fix names', e);
 }
 
 /* ---------- тема/настройки ---------- */
@@ -9402,7 +10633,20 @@ action('install-help', () => installHelpSheet());
 action('about', () => aboutSheet());
 action('export-data', () => doExport());
 action('import-data', () => doImport());
+action('export-programs', () => doExportPrograms());
+action('import-programs', () => doImportPrograms());
 action('import-history', () => openImporter());
+action('open-sport', () => {
+  openSportPicker({
+    onPick: (sport) => {
+      if (activeSession()) {
+        import('./views/sport.js').then(({ askDurationAndStart }) => askDurationAndStart(sport));
+      } else {
+        import('./views/sport.js').then(({ askDurationAndStart }) => askDurationAndStart(sport));
+      }
+    },
+  });
+});
 action('reset-all', () => doReset());
 action('seed-demo', async () => {
   const ok = await confirmDialog({

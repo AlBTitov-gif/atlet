@@ -1,0 +1,1684 @@
+{
+  "app": "atlet-programs",
+  "version": 1,
+  "exportedAt": "2026-11-26T14:29:42.591Z",
+  "count": 10,
+  "programs": [
+    {
+      "id": "start-fullbody",
+      "name": "Старт: всё тело 3×/нед",
+      "goal": "health",
+      "level": 1,
+      "weeks": 6,
+      "color": "#c6f24a",
+      "icon": "sparkles",
+      "tagline": "Первая программа для зала",
+      "description": "Базовая программа на всё тело: закладывает технику и привычку тренироваться. Каждая тренировка ~50 минут, отдых 60–90 секунд.",
+      "tips": [
+        "Не гонитесь за весом первые 2 недели — техника важнее.",
+        "Между тренировками минимум 1 день отдыха.",
+        "Если успеваете 12 повторений легко — добавляйте 2,5 кг."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "День A",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lat-pulldown",
+              "exerciseId": "lat-pulldown",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "db-shoulder-press",
+              "exerciseId": "db-shoulder-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 75,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-curl",
+              "exerciseId": "leg-curl",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 75,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "plank",
+              "exerciseId": "plank",
+              "sets": 3,
+              "reps": "30-45",
+              "rest": 60,
+              "note": "секунд",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "День B",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 3,
+              "reps": "10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bench-db",
+              "exerciseId": "bench-db",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-row",
+              "exerciseId": "seated-row",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-press",
+              "exerciseId": "leg-press",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lateral-raise",
+              "exerciseId": "lateral-raise",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hammer-curl",
+              "exerciseId": "hammer-curl",
+              "sets": 2,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "День C",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "hip-thrust",
+              "exerciseId": "hip-thrust",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "incline-db-press",
+              "exerciseId": "incline-db-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "db-row",
+              "exerciseId": "db-row",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "goblet-squat",
+              "exerciseId": "goblet-squat",
+              "sets": 3,
+              "reps": "12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "face-pull",
+              "exerciseId": "face-pull",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "crunch",
+              "exerciseId": "crunch",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382590
+    },
+    {
+      "id": "newbie-split",
+      "name": "Новичок: грудь · спина · ноги",
+      "goal": "mass",
+      "level": 1,
+      "weeks": 8,
+      "color": "#5b9dff",
+      "icon": "layers",
+      "tagline": "Классический трёхдневный сплит",
+      "description": "Самая понятная схема для первых месяцев: день груди, день спины, день ног и плеч. Много базовых движений и немного изоляции.",
+      "tips": [
+        "Отдых между подходами 90–120 секунд на базовых.",
+        "Добавляйте вес, когда выполняете верх диапазона во всех подходах.",
+        "Пресс можно добавить в конец любой тренировки."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Грудь + трицепс",
+          "focus": "Грудь",
+          "items": [
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "incline-db-press",
+              "exerciseId": "incline-db-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "db-fly",
+              "exerciseId": "db-fly",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "dips",
+              "exerciseId": "dips",
+              "sets": 3,
+              "reps": "8-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pushdown",
+              "exerciseId": "pushdown",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Спина + бицепс",
+          "focus": "Спина",
+          "items": [
+            {
+              "id": "lat-pulldown",
+              "exerciseId": "lat-pulldown",
+              "sets": 4,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bent-row",
+              "exerciseId": "bent-row",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-row",
+              "exerciseId": "seated-row",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "face-pull",
+              "exerciseId": "face-pull",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "curl",
+              "exerciseId": "curl",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Ноги + плечи",
+          "focus": "Ноги",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 3,
+              "reps": "10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-press",
+              "exerciseId": "leg-press",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lateral-raise",
+              "exerciseId": "lateral-raise",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "calf-raise",
+              "exerciseId": "calf-raise",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "upper-lower",
+      "name": "Верх / Низ 4 дня",
+      "goal": "mass",
+      "level": 2,
+      "weeks": 8,
+      "color": "#a78bfa",
+      "icon": "split",
+      "tagline": "4 тренировки в неделю — золотая середина",
+      "description": "Каждая группа мышц прорабатывается дважды в неделю — оптимальная частота для роста при 4 занятиях. Подходит, когда уже есть база.",
+      "tips": [
+        "Верх A / Низ A — тяжёлые (6–8 повторов), Верх B / Низ B — объёмные (10–15).",
+        "Следите за прогрессией весов хотя бы раз в 2 недели.",
+        "Сон 7–9 часов влияет не меньше тренировок."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Верх A (тяжёлый)",
+          "focus": "Верх",
+          "items": [
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 4,
+              "reps": "6-8",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bent-row",
+              "exerciseId": "bent-row",
+              "sets": 4,
+              "reps": "6-8",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "ohp",
+              "exerciseId": "ohp",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lat-pulldown",
+              "exerciseId": "lat-pulldown",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lateral-raise",
+              "exerciseId": "lateral-raise",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "curl",
+              "exerciseId": "curl",
+              "sets": 2,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Низ A (тяжёлый)",
+          "focus": "Низ",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 4,
+              "reps": "6-8",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-press",
+              "exerciseId": "leg-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-curl",
+              "exerciseId": "leg-curl",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 75,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "calf-raise",
+              "exerciseId": "calf-raise",
+              "sets": 4,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Верх B (объёмный)",
+          "focus": "Верх",
+          "items": [
+            {
+              "id": "incline-db-press",
+              "exerciseId": "incline-db-press",
+              "sets": 4,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-row",
+              "exerciseId": "seated-row",
+              "sets": 4,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "db-shoulder-press",
+              "exerciseId": "db-shoulder-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 75,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "cable-crossover",
+              "exerciseId": "cable-crossover",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "rear-fly",
+              "exerciseId": "rear-fly",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pushdown",
+              "exerciseId": "pushdown",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "name": "Низ B (объёмный)",
+          "focus": "Низ",
+          "items": [
+            {
+              "id": "hip-thrust",
+              "exerciseId": "hip-thrust",
+              "sets": 4,
+              "reps": "10-12",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bulgarian-split",
+              "exerciseId": "bulgarian-split",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-ext",
+              "exerciseId": "leg-ext",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-leg-curl",
+              "exerciseId": "seated-leg-curl",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "calf-raise-seated",
+              "exerciseId": "calf-raise-seated",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "ppl",
+      "name": "Жим · Тяга · Ноги (PPL)",
+      "goal": "mass",
+      "level": 2,
+      "weeks": 8,
+      "color": "#fbbf24",
+      "icon": "bolt",
+      "tagline": "Самый популярный массонаборный сплит",
+      "description": "Три разных тренировки: жимовые, тяговые и ноги. Выполняется 3 дня в неделю с отдыхом между, или 6 дней для продвинутых.",
+      "tips": [
+        "Начинайте с 3 дней в неделю (Пн/Ср/Пт).",
+        "Каждую неделю старайтесь добавить повтор или немного веса.",
+        "Не пропускайте день ног — он даёт самый большой гормональный отклик."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Push — жимы",
+          "focus": "Грудь",
+          "items": [
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 4,
+              "reps": "6-8",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "ohp",
+              "exerciseId": "ohp",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "incline-db-press",
+              "exerciseId": "incline-db-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lateral-raise",
+              "exerciseId": "lateral-raise",
+              "sets": 4,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pushdown",
+              "exerciseId": "pushdown",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "ab-wheel",
+              "exerciseId": "ab-wheel",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Pull — тяги",
+          "focus": "Спина",
+          "items": [
+            {
+              "id": "pull-up",
+              "exerciseId": "pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bent-row",
+              "exerciseId": "bent-row",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-row",
+              "exerciseId": "seated-row",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "face-pull",
+              "exerciseId": "face-pull",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hammer-curl",
+              "exerciseId": "hammer-curl",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "shrug",
+              "exerciseId": "shrug",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Legs — ноги",
+          "focus": "Ноги",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 4,
+              "reps": "6-8",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 150,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-press",
+              "exerciseId": "leg-press",
+              "sets": 4,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-curl",
+              "exerciseId": "leg-curl",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "calf-raise",
+              "exerciseId": "calf-raise",
+              "sets": 4,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hanging-knee-raise",
+              "exerciseId": "hanging-knee-raise",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "strength-5x5",
+      "name": "Сила 5×5",
+      "goal": "strength",
+      "level": 2,
+      "weeks": 10,
+      "color": "#ff6b6b",
+      "icon": "trend-up",
+      "tagline": "Простые движения, тяжёлые веса",
+      "description": "Работа на силу и плотность: 5 подходов по 5 повторений в базовых движениях. Прогрессия — линейная, по 1,25–2,5 кг при успешном выполнении.",
+      "tips": [
+        "5×5 — это не разминка: первые 2 подхода делайте с 50–70% рабочего веса.",
+        "Если не удалось 5×5 — повторите вес на следующей тренировке.",
+        "Спите и ешьте достаточно, иначе прогресса не будет."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Тренировка A",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bent-row",
+              "exerciseId": "bent-row",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "plank",
+              "exerciseId": "plank",
+              "sets": 3,
+              "reps": "45-60",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Тренировка B",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "ohp",
+              "exerciseId": "ohp",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 3,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pull-up",
+              "exerciseId": "pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Тренировка C",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "squat",
+              "exerciseId": "squat",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 5,
+              "reps": "5",
+              "rest": 180,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "db-row",
+              "exerciseId": "db-row",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hyperextension",
+              "exerciseId": "hyperextension",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "glutes",
+      "name": "Ягодицы и бёдра",
+      "goal": "tone",
+      "level": 1,
+      "weeks": 8,
+      "color": "#f472b6",
+      "icon": "flame",
+      "tagline": "Акцент на форму без «накачки ног»",
+      "description": "Программа для развития ягодичных и задней поверхности бедра. Упражнения подобраны так, чтобы работать над формой, не увеличивая сильно квадрицепс.",
+      "tips": [
+        "Два дня с акцентом на мосты и отведения, один — общий.",
+        "Обязательно чувствуйте ягодицы в каждом повторе, иначе вес слишком большой.",
+        "Пятки ближе к тазу, чтобы включить ягодицы сильнее."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Ягодицы A",
+          "focus": "Ягодицы",
+          "items": [
+            {
+              "id": "hip-thrust",
+              "exerciseId": "hip-thrust",
+              "sets": 4,
+              "reps": "10-12",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bulgarian-split",
+              "exerciseId": "bulgarian-split",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "cable-kickback",
+              "exerciseId": "cable-kickback",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hip-abduction",
+              "exerciseId": "hip-abduction",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "glute-bridge",
+              "exerciseId": "glute-bridge",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Ягодицы + задняя поверхность",
+          "focus": "Ягодицы",
+          "items": [
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "step-up-glute",
+              "exerciseId": "step-up-glute",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-leg-curl",
+              "exerciseId": "seated-leg-curl",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "cable-kickback",
+              "exerciseId": "cable-kickback",
+              "sets": 3,
+              "reps": "15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "side-plank",
+              "exerciseId": "side-plank",
+              "sets": 2,
+              "reps": "30-45",
+              "rest": 45,
+              "note": "на каждую сторону",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Общий день ног",
+          "focus": "Ноги",
+          "items": [
+            {
+              "id": "goblet-squat",
+              "exerciseId": "goblet-squat",
+              "sets": 3,
+              "reps": "12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-press",
+              "exerciseId": "leg-press",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "calf-raise",
+              "exerciseId": "calf-raise",
+              "sets": 4,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hip-thrust",
+              "exerciseId": "hip-thrust",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 90,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "aesthetic",
+      "name": "Эстетика верха: грудь и руки",
+      "goal": "tone",
+      "level": 2,
+      "weeks": 8,
+      "color": "#2dd4bf",
+      "icon": "sparkles",
+      "tagline": "Грудь, плечи, руки — без ног",
+      "description": "Если цель — визуальный верх тела: объёмная грудь, широкие плечи и руки. Ноги можно добавить своими упражнениями.",
+      "tips": [
+        "Работайте в диапазоне 8–15 повторений с контролем.",
+        "В изоляции важнее ощущение мышцы, чем вес.",
+        "Добавьте 10 минут кардио в конце для рельефа."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Грудь",
+          "focus": "Грудь",
+          "items": [
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "incline-db-press",
+              "exerciseId": "incline-db-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pec-deck",
+              "exerciseId": "pec-deck",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "cable-crossover",
+              "exerciseId": "cable-crossover",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "push-up",
+              "exerciseId": "push-up",
+              "sets": 2,
+              "reps": "12-20",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Плечи + руки",
+          "focus": "Плечи",
+          "items": [
+            {
+              "id": "db-shoulder-press",
+              "exerciseId": "db-shoulder-press",
+              "sets": 4,
+              "reps": "8-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lateral-raise",
+              "exerciseId": "lateral-raise",
+              "sets": 4,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "rear-fly",
+              "exerciseId": "rear-fly",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "curl",
+              "exerciseId": "curl",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pushdown",
+              "exerciseId": "pushdown",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Руки + спина",
+          "focus": "Руки",
+          "items": [
+            {
+              "id": "seated-row",
+              "exerciseId": "seated-row",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pull-up",
+              "exerciseId": "pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hammer-curl",
+              "exerciseId": "hammer-curl",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "french-press",
+              "exerciseId": "french-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "reverse-curl",
+              "exerciseId": "reverse-curl",
+              "sets": 2,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "fatloss",
+      "name": "Жиросжигание в зале",
+      "goal": "fatloss",
+      "level": 1,
+      "weeks": 6,
+      "color": "#38bdf8",
+      "icon": "flame",
+      "tagline": "Круговой формат + кардио",
+      "description": "Сочетание силовых по кругу и кардио: выше пульс, больше калорий, но мышцы сохраняются. Отдых короткий — 30–45 секунд.",
+      "tips": [
+        "Круг = все упражнения подряд на 1 подход, затем 2 минуты отдыха.",
+        "Техника важнее скорости: усталость не оправдывает кривую спину.",
+        "Дефицит калорий — главный фактор результата, тренировки поддерживают мышцы."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Круг A",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "goblet-squat",
+              "exerciseId": "goblet-squat",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "push-up",
+              "exerciseId": "push-up",
+              "sets": 3,
+              "reps": "10-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "db-row",
+              "exerciseId": "db-row",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lunge",
+              "exerciseId": "lunge",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 45,
+              "note": "на каждую ногу",
+              "time": false
+            },
+            {
+              "id": "mountain-climber",
+              "exerciseId": "mountain-climber",
+              "sets": 3,
+              "reps": "30-40",
+              "rest": 45,
+              "note": "секунд",
+              "time": false
+            },
+            {
+              "id": "plank",
+              "exerciseId": "plank",
+              "sets": 3,
+              "reps": "40-60",
+              "rest": 45,
+              "note": "секунд",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "name": "Кардио + кор",
+          "focus": "Кардио",
+          "items": [
+            {
+              "id": "walking-treadmill",
+              "exerciseId": "walking-treadmill",
+              "sets": 1,
+              "reps": "20-30",
+              "rest": 0,
+              "note": "минут",
+              "time": true
+            },
+            {
+              "id": "russian-twist",
+              "exerciseId": "russian-twist",
+              "sets": 3,
+              "reps": "20-30",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "leg-raise",
+              "exerciseId": "leg-raise",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "dead-bug",
+              "exerciseId": "dead-bug",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 45,
+              "note": "",
+              "time": false
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "name": "Круг B",
+          "focus": "Всё тело",
+          "items": [
+            {
+              "id": "kb-swing",
+              "exerciseId": "kb-swing",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hip-thrust",
+              "exerciseId": "hip-thrust",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "bench-db",
+              "exerciseId": "bench-db",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "lat-pulldown",
+              "exerciseId": "lat-pulldown",
+              "sets": 3,
+              "reps": "12-15",
+              "rest": 45,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "burpee",
+              "exerciseId": "burpee",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "jump-rope",
+              "exerciseId": "jump-rope",
+              "sets": 3,
+              "reps": "60-90",
+              "rest": 45,
+              "note": "секунд",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "chest-biceps",
+      "name": "Грудь + бицепс",
+      "goal": "mass",
+      "level": 1,
+      "weeks": 8,
+      "color": "#ff6b6b",
+      "icon": "layers",
+      "tagline": "Ваш сплит: жимы и руки",
+      "description": "Программа по вашей тренировке: жим штанги, жимы и разведения гантелей на наклонной, сгибания на бицепс и пресс. Хорошо работает в паре с днём «Спина + трицепс».",
+      "tips": [
+        "Начинайте с жима штанги — это главное движение дня.",
+        "Разведения делайте лёгкими: вес уменьшается по подходам, чтобы держать технику.",
+        "Когда 10 повторений в жиме даются легко — добавьте 2,5 кг."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Грудь + бицепс",
+          "focus": "Грудь · Бицепс",
+          "items": [
+            {
+              "id": "bench-press",
+              "exerciseId": "bench-press",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 120,
+              "note": "разминка: пустой гриф, затем 50%",
+              "time": false
+            },
+            {
+              "id": "db-curl",
+              "exerciseId": "db-curl",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 75,
+              "note": "поочерёдно, с разворотом кисти",
+              "time": false
+            },
+            {
+              "id": "db-shoulder-press",
+              "exerciseId": "db-shoulder-press",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "incline-db-press",
+              "exerciseId": "incline-db-press",
+              "sets": 3,
+              "reps": "8-12",
+              "rest": 90,
+              "note": "скамья 30°",
+              "time": false
+            },
+            {
+              "id": "db-fly",
+              "exerciseId": "db-fly",
+              "sets": 3,
+              "reps": "10-15",
+              "rest": 60,
+              "note": "скамья 30°, вес уменьшать по подходам",
+              "time": false
+            },
+            {
+              "id": "crunch",
+              "exerciseId": "crunch",
+              "sets": 3,
+              "reps": "15-20",
+              "rest": 45,
+              "note": "секунд",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    },
+    {
+      "id": "back-triceps",
+      "name": "Спина + трицепс",
+      "goal": "mass",
+      "level": 1,
+      "weeks": 8,
+      "color": "#5b9dff",
+      "icon": "layers",
+      "tagline": "Ваш сплит: тяги и трицепс",
+      "description": "Программа по вашей тренировке: становая, подтягивания, брусья, горизонтальная тяга, разгибания на трицепс, пресс и планка. Дополняет день «Грудь + бицепс».",
+      "tips": [
+        "Становая — первым движением, пока есть силы.",
+        "Если подтягивания пока тяжело — используйте гравитрон или резинку.",
+        "Планку держите в конце: 1–2 подхода по 45–60 секунд достаточно."
+      ],
+      "days": [
+        {
+          "id": "d0",
+          "name": "Спина + трицепс",
+          "focus": "Спина · Трицепс",
+          "items": [
+            {
+              "id": "rdl",
+              "exerciseId": "rdl",
+              "sets": 4,
+              "reps": "8-10",
+              "rest": 150,
+              "note": "спина прямая, гриф близко",
+              "time": false
+            },
+            {
+              "id": "pull-up",
+              "exerciseId": "pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "rest": 120,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "dips",
+              "exerciseId": "dips",
+              "sets": 3,
+              "reps": "8-10",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "seated-row",
+              "exerciseId": "seated-row",
+              "sets": 3,
+              "reps": "10-15",
+              "rest": 90,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "pushdown",
+              "exerciseId": "pushdown",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "hanging-knee-raise",
+              "exerciseId": "hanging-knee-raise",
+              "sets": 3,
+              "reps": "10-12",
+              "rest": 60,
+              "note": "",
+              "time": false
+            },
+            {
+              "id": "plank",
+              "exerciseId": "plank",
+              "sets": 2,
+              "reps": "45-60",
+              "rest": 45,
+              "note": "секунд",
+              "time": false
+            }
+          ]
+        }
+      ],
+      "preset": true,
+      "createdAt": 1795703382591
+    }
+  ]
+}

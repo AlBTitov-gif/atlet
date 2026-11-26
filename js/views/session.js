@@ -68,6 +68,7 @@ export default function renderSession() {
     mount() {
       startClock();
       mountRestPill();
+      bindSetInputs();
     },
   };
 }
@@ -82,6 +83,9 @@ function itemCard(it, idx, count) {
   const collapsed = !!it.collapsed;
   const target = it.targetReps || '8-12';
   const timeBased = !!ex?.time && ex.group === 'core';
+  const sportMode = ex?.group === 'sport';
+  const wUnit = sportMode ? 'мин' : 'кг';
+  const rUnit = sportMode ? 'мин' : timeBased ? 'сек' : 'повт';
 
   const lastMap = new Map();
   if (last) last.sets.forEach((st, i) => lastMap.set(i, st));
@@ -89,24 +93,28 @@ function itemCard(it, idx, count) {
   const rows = it.sets
     .map((set, i) => {
       const prev = lastMap.get(i);
-      const prevTxt = prev ? `${fmtNum(prev.weight)}×${fmtNum(prev.reps)}` : '—';
-      const sugg = suggestionFor(it.exerciseId, target, it.sets.length);
+      const prevTxt = sportMode
+        ? prev ? `${fmtNum(prev.duration || 60)} мин` : '—'
+        : prev ? `${fmtNum(prev.weight)}×${fmtNum(prev.reps)}` : '—';
+      const sugg = sportMode ? { weight: 0, reps: 60 } : suggestionFor(it.exerciseId, target, it.sets.length);
       const weightHint = sugg.weight || (prev && num(prev.weight));
-      const placeholder = done ? '' : weightHint ? `placeholder="${fmtNum(weightHint)}"` : 'placeholder="—"';
+      const placeholder = done ? '' : sportMode ? 'placeholder="60"' : weightHint ? `placeholder="${fmtNum(weightHint)}"` : 'placeholder="—"';
+      const wValue = sportMode ? (set.duration ? fmtNum(set.duration) : '') : (set.weight ? fmtNum(set.weight) : '');
+      const rValue = sportMode ? (set.distance ? fmtNum(set.distance) : '') : (set.reps ? fmtNum(set.reps) : '');
       return `<div class="setrow ${set.done ? 'is-done' : ''}" data-item="${it.id}" data-set="${set.id}">
         <div class="setrow__n">${i + 1}</div>
         <div class="setrow__prev" data-prev="${set.id}" title="Прошлый раз">${prevTxt}</div>
         <div class="setrow__field">
-          <input class="setin" type="number" inputmode="decimal" step="0.5" min="0"
-            data-field-weight data-item="${it.id}" data-set="${set.id}"
-            value="${set.weight ? fmtNum(set.weight) : ''}" ${placeholder}
-            aria-label="Вес" ${set.done ? 'readonly' : ''}>
+          <input class="setin" type="number" inputmode="decimal" step="${sportMode ? 1 : 0.5}" min="0"
+            data-field-${sportMode ? 'duration' : 'weight'} data-item="${it.id}" data-set="${set.id}"
+            value="${wValue}" ${placeholder}
+            aria-label="${sportMode ? 'Минуты' : 'Вес'}" ${set.done ? 'readonly' : ''}>
         </div>
         <div class="setrow__field">
-          <input class="setin" type="number" inputmode="numeric" step="1" min="0"
-            data-field-reps data-item="${it.id}" data-set="${set.id}"
-            value="${set.reps ? fmtNum(set.reps) : ''}"
-            aria-label="${timeBased ? 'Секунды' : 'Повторения'}" ${set.done ? 'readonly' : ''}>
+          <input class="setin" type="number" inputmode="numeric" step="${sportMode ? 0.1 : 1}" min="0"
+            data-field-${sportMode ? 'distance' : 'reps'} data-item="${it.id}" data-set="${set.id}"
+            value="${rValue}"
+            aria-label="${sportMode ? 'Дистанция, км' : timeBased ? 'Секунды' : 'Повторения'}" ${set.done ? 'readonly' : ''}>
         </div>
         <button class="setrow__check ${set.done ? 'is-on' : ''}" data-action="toggle-set"
           data-item="${it.id}" data-set="${set.id}" aria-label="${set.done ? 'Отменить подход' : 'Выполнить подход'}">
@@ -136,21 +144,21 @@ function itemCard(it, idx, count) {
         : `<div class="ex-body">
       ${
         last
-          ? `<div class="ex-prev">${icon('history', 13)} <span>Прошлый раз ${fmtDate(last.date)}: ${last.sets
-              .map((x) => `${fmtNum(x.weight)}×${fmtNum(x.reps)}`)
-              .join(', ')}</span></div>`
+          ? `<div class="ex-prev">${icon('history', 13)} <span>Прошлый раз ${fmtDate(last.date)}: ${sportMode
+              ? last.sets.map((x) => `${fmtNum(x.duration || 60)} мин`).join(', ')
+              : last.sets.map((x) => `${fmtNum(x.weight)}×${fmtNum(x.reps)}`).join(', ')}</span></div>`
           : `<div class="ex-prev">${icon('info', 13)} <span>Новое упражнение — запишите свой первый подход</span></div>`
       }
       <div class="setrow setrow--head">
         <div class="setrow__n">#</div>
         <div class="setrow__prev">Прошлый</div>
-        <div class="setrow__field">Вес</div>
-        <div class="setrow__field">${timeBased ? 'Сек' : 'Повт'}</div>
+        <div class="setrow__field">${wUnit}</div>
+        <div class="setrow__field">${rUnit}</div>
         <div style="width:38px"></div>
       </div>
       ${rows}
       <div class="ex-actions">
-        <button class="chip" data-action="add-set" data-item="${it.id}">${icon('plus', 14)} Подход</button>
+        ${sportMode ? '' : `<button class="chip" data-action="add-set" data-item="${it.id}">${icon('plus', 14)} Подход</button>`}
         <button class="chip" data-action="fill-last" data-item="${it.id}">${icon('copy', 14)} Из прошлой</button>
         <button class="chip" data-action="swap-exercise" data-item="${it.id}">${icon('switch', 14)} Заменить</button>
         <button class="chip" data-action="item-menu" data-item="${it.id}">${icon('dots', 14)}</button>
@@ -158,6 +166,31 @@ function itemCard(it, idx, count) {
     </div>`
     }
   </div>`;
+}
+
+/* ---------- ввод значений подхода ---------- */
+function bindSetInputs() {
+  const handler = (e) => {
+    const el = e.target;
+    if (!el.classList || !el.classList.contains('setin')) return;
+    const itemId = el.dataset.item;
+    const setId = el.dataset.set;
+    if (!itemId || !setId) return;
+    const patch = {};
+    if ('fieldWeight' in el.dataset) patch.weight = num(el.value);
+    else if ('fieldReps' in el.dataset) patch.reps = num(el.value);
+    else if ('fieldDuration' in el.dataset) patch.duration = num(el.value);
+    else if ('fieldDistance' in el.dataset) patch.distance = num(el.value);
+    if (Object.keys(patch).length) {
+      try {
+        updateSet(itemId, setId, patch);
+      } catch (err) {
+        console.error('set input', err);
+      }
+    }
+  };
+  document.addEventListener('input', handler, { passive: true });
+  document.addEventListener('change', handler, { passive: true });
 }
 
 function fmtNum(v) {

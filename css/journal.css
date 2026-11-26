@@ -230,3 +230,71 @@
 .summary .metrics {
   text-align: left;
 }
+
+/* переключатель месяцев в календаре */
+.cal__months {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 2px 9px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cal__months::-webkit-scrollbar {
+  display: none;
+}
+.cal__month-chip,
+.cal__jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: var(--r-full);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.cal__month-chip:active,
+.cal__jump:active {
+  transform: scale(0.96);
+}
+.cal__month-chip.is-on {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.cal__month-n {
+  font-size: 10.5px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--surface-3);
+  display: inline-grid;
+  place-items: center;
+  color: var(--text-2);
+}
+.cal__month-chip.is-on .cal__month-n {
+  background: rgba(198, 242, 74, 0.22);
+  color: var(--accent);
+}
+.cal__jump {
+  background: transparent;
+  border-style: dashed;
+  color: var(--text-2);
+}
+.cal__foot {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--text-3);
+  text-align: center;
+}

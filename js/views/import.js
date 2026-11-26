@@ -6,7 +6,7 @@ import { icon } from '../icons.js';
 import { escapeHtml, num, isoDate, fmtDate, fmtVolume, plural, uid, parseDate, startOfDay } from '../utils.js';
 import { sheet, toast, refresh, confirmDialog } from '../ui.js';
 import { parseHistoryText, buildWorkouts, importWorkouts, importMeasurements, matchExercise, adoptUnknown } from '../importer.js';
-import { workoutVolume, exerciseName } from '../analytics.js';
+import { workoutVolume, exerciseName, exerciseGroup } from '../analytics.js';
 
 const MEASURE_LABELS = { weight: 'вес', waist: 'талия', chest: 'грудь', hips: 'бёдра', biceps: 'бицепс', neck: 'шея', thigh: 'бедро', calf: 'голень', bodyfat: 'жир %' };
 
@@ -21,6 +21,42 @@ export const IMPORT_EXAMPLE = `12.11.2026
 
 Вес: 82.5 кг
 Талия: 87 см`;
+
+const LABELS = { chest: 'Грудь', back: 'Спина', legs: 'Ноги', glutes: 'Ягодицы', shoulders: 'Плечи', arms: 'Руки', core: 'Пресс', cardio: 'Кардио', sport: 'Спорт' };
+const GENERIC_NAME = /^(Тренировка|Импорт|Грудь \+ Руки|Ноги \+ Спина|Грудь \+ Спина|Ноги \+ Руки|Спина \+ Руки|Грудь \+ Плечи|Ноги \+ Ягодицы)$/;
+
+/** Имя тренировки по двум самым нагруженным группам мышц */
+export function workoutNameByGroups(w) {
+  const sets = new Map();
+  for (const it of w.items || []) {
+    if (it.exerciseId && it.exerciseId.startsWith('sport-')) {
+      sets.set('sport', (sets.get('sport') || 0) + 3);
+      continue;
+    }
+    const g = exerciseGroup(it.exerciseId);
+    const n = (it.sets || []).filter((x) => x.done).length || (it.sets || []).length;
+    sets.set(g, (sets.get(g) || 0) + n);
+  }
+  const top = [...sets.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([g]) => LABELS[g]).filter(Boolean);
+  return top.join(' + ') || 'Тренировка';
+}
+
+/** Исправляет имена уже импортированных записей «Тренировка» → по группам мышц */
+export function fixNoNameWorkouts() {
+  const labels = { chest: 'Грудь', back: 'Спина', legs: 'Ноги', glutes: 'Ягодицы', shoulders: 'Плечи', arms: 'Руки', core: 'Пресс', cardio: 'Кардио', sport: 'Спорт' };
+  let fixed = 0;
+  for (const w of state.workouts || []) {
+    if (!w.imported && w.name && !GENERIC_NAME.test(w.name)) continue;
+    if (w.name && !GENERIC_NAME.test(w.name) && w.name !== 'Тренировка') continue;
+    const name = workoutNameByGroups(w);
+    if (name && name !== w.name) {
+      w.name = name;
+      fixed++;
+    }
+  }
+  if (fixed) save({ immediate: true });
+  return fixed;
+}
 
 export function openImporter() {
   const sh = sheet({
@@ -173,6 +209,12 @@ export function openImporter() {
     if (!list) {
       if (parsed?.unknown?.length) adoptUnknown(parsed);
       list = buildWorkouts(parsed);
+    }
+    // осмысленные названия: по самым нагруженным группам
+    for (const w of list) {
+      if (!w.name || GENERIC_NAME.test(w.name) || w.name === 'Импорт') {
+        w.name = workoutNameByGroups(w);
+      }
     }
     if (!list.length) return;
     const replaceEl = sh.el.querySelector('[data-im-replace]');

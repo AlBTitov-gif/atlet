@@ -147,8 +147,8 @@ export default function renderToday() {
       <button class="quick" data-action="open-measure">
         <span class="quick__ic" style="background:rgba(244,114,182,.14);color:#f472b6">${icon('ruler', 20)}</span><span>Замеры</span>
       </button>
-      <button class="quick" data-action="open-timer">
-        <span class="quick__ic" style="background:rgba(255,182,72,.14);color:#ffb648">${icon('timer', 20)}</span><span>Таймер</span>
+      <button class="quick" data-action="open-sport">
+        <span class="quick__ic" style="background:rgba(52,211,153,.14);color:#34d399">${icon('target', 20)}</span><span>Спорт</span>
       </button>
     </div>
   </section>`;

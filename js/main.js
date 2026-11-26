@@ -26,7 +26,7 @@ import renderJournal, { renderWorkoutDetail } from './views/journal.js';
 import renderProgress from './views/progress.js';
 import renderProfile, {
   editProfileSheet, weeklyGoalSheet, restDefaultSheet, installHelpSheet, aboutSheet,
-  doExport, doImport, doReset, themeSheet, applyTheme,
+  doExport, doImport, doReset, doExportPrograms, doImportPrograms, themeSheet, applyTheme,
 } from './views/profile.js';
 import renderExercises, { renderExerciseDetail } from './views/exercises.js';
 import { openExercisePicker, createCustomExercise } from './views/picker.js';
@@ -35,7 +35,8 @@ import {
   openMeasureSheet, openMeasureHistory, openPhotoSheet, viewPhoto, viewAllPhotos,
 } from './views/measure.js';
 import { seedDemo } from './seed.js';
-import { openImporter } from './views/import.js';
+import { openImporter, fixNoNameWorkouts } from './views/import.js';
+import { openSportPicker, recordSport } from './views/sport.js';
 
 /* ---------- хранилище навигации ---------- */
 const history = [];
@@ -66,6 +67,13 @@ if (!state.programs || !state.programs.length) {
     state.programs = [...missing.map((p) => normalizeProgram({ ...p, preset: true })), ...state.programs];
     save({ immediate: true });
   }
+}
+
+/* ---------- починка названий старых импортов ---------- */
+try {
+  fixNoNameWorkouts();
+} catch (e) {
+  console.error('fix names', e);
 }
 
 /* ---------- тема/настройки ---------- */
@@ -485,7 +493,20 @@ action('install-help', () => installHelpSheet());
 action('about', () => aboutSheet());
 action('export-data', () => doExport());
 action('import-data', () => doImport());
+action('export-programs', () => doExportPrograms());
+action('import-programs', () => doImportPrograms());
 action('import-history', () => openImporter());
+action('open-sport', () => {
+  openSportPicker({
+    onPick: (sport) => {
+      if (activeSession()) {
+        import('./views/sport.js').then(({ askDurationAndStart }) => askDurationAndStart(sport));
+      } else {
+        import('./views/sport.js').then(({ askDurationAndStart }) => askDurationAndStart(sport));
+      }
+    },
+  });
+});
 action('reset-all', () => doReset());
 action('seed-demo', async () => {
   const ok = await confirmDialog({

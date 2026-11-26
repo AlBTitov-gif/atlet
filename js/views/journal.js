@@ -75,6 +75,14 @@ export default function renderJournal() {
         expandedCal = !expandedCal;
         refresh();
       });
+      for (const b of document.querySelectorAll('[data-cal-jump]')) {
+        b.addEventListener('click', () => {
+          const [y, m] = b.dataset.calJump.split('-').map(Number);
+          monthCursor = new Date(y, m - 1, 1);
+          haptic();
+          refresh();
+        });
+      }
       for (const b of document.querySelectorAll('[data-cal-day]')) {
         b.addEventListener('click', () => {
           const d = b.dataset.calDay;
@@ -112,6 +120,61 @@ function calendar(all) {
   const limitWeeks = expandedCal ? weeks : 5;
   const shownDays = days.slice(0, limitWeeks * 7);
 
+  const monthKeys = [...new Set(all.map((w) => (w.date || isoDate(w.startedAt)).slice(0, 7)))].sort().reverse();
+  const monthCount = new Map();
+  for (const w of all) {
+    const k = (w.date || isoDate(w.startedAt)).slice(0, 7);
+    monthCount.set(k, (monthCount.get(k) || 0) + 1);
+  }
+  const curKey = isoDate(monthCursor).slice(0, 7);
+  const isCurrentMonth = curKey === isoDate(new Date()).slice(0, 7);
+
+  return `<div class="card cal">
+    <div class="cal__head">
+      <button class="cal__nav" data-cal-nav="-1" aria-label="Предыдущий месяц">${icon('chevronLeft', 18)}</button>
+      <div class="cal__month">${monthLabel(curKey)}</div>
+      <button class="cal__nav" data-cal-nav="1" aria-label="Следующий месяц">${icon('chevronRight', 18)}</button>
+    </div>
+    ${
+      monthKeys.length > 1
+        ? `<div class="cal__months">
+            ${isCurrentMonth ? '' : `<button class="cal__jump" data-cal-jump="${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}">Сегодня</button>`}
+            ${monthKeys.map((k) => `<button class="cal__month-chip ${k === curKey ? 'is-on' : ''}" data-cal-jump="${k}">
+              ${monthShort(k)} <span class="cal__month-n">${monthCount.get(k)}</span>
+            </button>`).join('')}
+          </div>`
+        : ''
+    }
+    <div class="cal__weekdays">${['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'].map((d) => `<span>${d}</span>`).join('')}</div>
+    <div class="cal__grid">
+      ${shownDays
+        .map((d) => {
+          if (!d) return '<span class="cal__cell cal__cell--empty"></span>';
+          const iso = isoDate(d);
+          const tr = trainedDays.get(iso);
+          const isToday = iso === todayIso;
+          const future = iso > todayIso;
+          const level = tr ? Math.max(0.3, Math.min(1, tr.vol / maxVol)) : 0;
+          return `<button class="cal__cell ${isToday ? 'is-today' : ''} ${tr ? 'has-workout' : ''} ${future ? 'is-future' : ''}"
+            data-cal-day="${iso}" ${tr ? '' : 'disabled'}
+            aria-label="${fmtDate(d)}${tr ? ', тренировка' : ''}"
+            style="${tr ? '--lvl:' + level.toFixed(2) : ''}">
+            ${d.getDate()}
+          </button>`;
+        })
+        .join('')}
+    </div>
+    ${
+      weeks > 5
+        ? `<button class="cal__more" data-cal-toggle>${expandedCal ? 'Свернуть' : 'Показать все дни'} ${icon(expandedCal ? 'chevronUp' : 'chevronDown', 15)}</button>`
+        : ''
+    }
+    <div class="cal__foot">
+      ${trainedDays.size ? `В этом месяце: ${[...trainedDays.keys()].filter((k) => k.startsWith(curKey)).length} из ${all.length} тренировок` : `В этом месяце тренировок нет — переключите месяц выше`}
+    </div>
+  </div>`;
+
+
   return `<div class="card cal">
     <div class="cal__head">
       <button class="cal__nav" data-cal-nav="-1">${icon('chevronLeft', 18)}</button>
@@ -142,6 +205,12 @@ function calendar(all) {
         : ''
     }
   </div>`;
+}
+
+function monthShort(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  const names = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  return names[m - 1] + ' ' + String(y).slice(2);
 }
 
 function journalRow(w) {

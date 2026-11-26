@@ -2,11 +2,34 @@
    Аналитика: объём, история упражнений, рекорды, стрики
    ============================================================ */
 import { baseExercises, GROUPS } from './exercises.js';
+import { SPORTS, isSport, sportOf, sportScore, MINUTES_PER_SET } from './sports.js';
 import { num, sum, e1rm, isoDate, startOfWeek, addDays, parseDate, daysBetween, groupBy } from './utils.js';
 import { state } from './store.js';
 
+function sportAsExercise(s) {
+  return {
+    id: s.id,
+    name: s.name,
+    group: 'sport',
+    eq: 'sport',
+    level: 1,
+    compound: false,
+    cues: ['Спортивная активность: учитывается время и нагрузка на группы мышц.'],
+    alts: [],
+    time: true,
+    dist: !!s.dist,
+    sport: true,
+    load: s.load,
+    custom: false,
+  };
+}
+
 export function allExercises() {
-  return [...baseExercises(), ...(state.customExercises || [])];
+  return [...baseExercises(), ...SPORTS.map(sportAsExercise), ...(state.customExercises || [])];
+}
+
+export function isSportExercise(id) {
+  return isSport({ id });
 }
 
 export function exerciseById(id) {
@@ -56,9 +79,10 @@ export function workoutGroups(w) {
     const g = exerciseGroup(it.exerciseId);
     const vol = sum(it.sets || [], (s) => (s.done ? num(s.weight) * num(s.reps) : 0));
     const sets = (it.sets || []).filter((s) => s.done).length;
-    const cur = map.get(g) || { group: g, volume: 0, sets: 0 };
+    const cur = map.get(g) || { group: g, volume: 0, sets: 0, seconds: 0 };
     cur.volume += vol;
     cur.sets += sets;
+    cur.seconds += sum(it.sets || [], (s) => (s.done ? num(s.duration) * 60 : 0));
     map.set(g, cur);
   }
   return [...map.values()].sort((a, b) => b.volume - a.volume || b.sets - a.sets);
@@ -218,6 +242,89 @@ export function groupVolume(fromIso, toIso = isoDate(new Date())) {
     }
   }
   return totals;
+}
+
+/**
+ * Нагрузка по группам мышц в процентах (как в Fitness Online):
+ * силовые — подходы, спорт — минуты, пересчитанные в эквивалент подходов.
+ * Возвращает { groups: [{group, pct, sets, seconds, isSport}], total, sportSeconds }
+ */
+export function muscleLoad(fromIso, toIso = isoDate(new Date())) {
+  const scores = {};
+  const seconds = {};
+  const rawSets = {};
+  for (const g of Object.keys(GROUPS)) {
+    scores[g] = 0;
+    seconds[g] = 0;
+    rawSets[g] = 0;
+  }
+  const ws = finishedWorkouts().filter((w) => {
+    const d = w.date || isoDate(w.startedAt);
+    return d >= fromIso && d <= toIso;
+  });
+  for (const w of ws) {
+    for (const it of w.items || []) {
+      const ex = exerciseById(it.exerciseId);
+      const g = ex?.group || 'chest';
+      const done = (it.sets || []).filter((s) => s.done);
+      if (!done.length) continue;
+
+      if (ex?.sport || isSportExercise(it.exerciseId)) {
+        const sp = sportOf(ex) || { load: { legs: 0.5, core: 0.5, cardio: 0.5 } };
+        const minutes = sum(done, (s) => num(s.duration));
+        const eq = sportScore(minutes || 30);
+        for (const [mg, weight] of Object.entries(sp.load)) {
+          if (mg === 'cardio') {
+            scores.cardio = (scores.cardio || 0) + eq * weight;
+          } else if (scores[mg] !== undefined) {
+            scores[mg] += eq * weight;
+          }
+        }
+        seconds.sport = (seconds.sport || 0) + (minutes || 30) * 60;
+        rawSets.sport = (rawSets.sport || 0) + 1;
+      } else {
+        const factor = ex?.compound ? 1.2 : 1;
+        scores[g] = (scores[g] || 0) + done.length * factor;
+        rawSets[g] += done.length;
+        seconds[g] += sum(done, (s) => num(s.duration) * 60);
+      }
+    }
+  }
+  const total = Object.values(scores).reduce((x, y) => x + y, 0);
+  const display = Object.keys(GROUPS)
+    .map((g) => ({
+      group: g,
+      pct: total > 0 ? (scores[g] / total) * 100 : 0,
+      sets: rawSets[g] || 0,
+      seconds: seconds[g] || 0,
+      isSport: g === 'cardio' || g === 'sport',
+    }))
+    .filter((x) => x.pct > 0.01)
+    .sort((x, y) => y.pct - x.pct);
+  return { groups: display, total, sportSeconds: seconds.sport || 0, workouts: ws.length };
+}
+
+/** Время по видам спорта за период: [{name, minutes, sessions}] */
+export function sportBreakdown(fromIso, toIso = isoDate(new Date())) {
+  const map = new Map();
+  const ws = finishedWorkouts().filter((w) => {
+    const d = w.date || isoDate(w.startedAt);
+    return d >= fromIso && d <= toIso;
+  });
+  for (const w of ws) {
+    for (const it of w.items || []) {
+      const ex = exerciseById(it.exerciseId);
+      if (!ex?.sport) continue;
+      const done = (it.sets || []).filter((s) => s.done);
+      if (!done.length) continue;
+      const minutes = sum(done, (s) => num(s.duration)) || workoutDuration(w) / 60;
+      const cur = map.get(it.exerciseId) || { id: it.exerciseId, name: ex.name, minutes: 0, sessions: 0 };
+      cur.minutes += minutes;
+      cur.sessions += 1;
+      map.set(it.exerciseId, cur);
+    }
+  }
+  return [...map.values()].sort((a, b) => b.minutes - a.minutes);
 }
 
 /** Данные для графика объёма по неделям: [{label, volume, count}] */

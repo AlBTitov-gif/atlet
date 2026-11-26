@@ -11,7 +11,10 @@ import {
   weekSummary, weeklySeries, weeklyCount, groupVolume, topExercises, topRecords, totalStats,
   currentStreak, finishedWorkouts, exerciseName, exerciseGroup, weightSeries, measurementSeries,
 } from '../analytics.js';
-import { GROUPS, GROUP_ORDER } from '../exercises.js';
+import { GROUPS, GROUP_ORDER, MUSCLE_GROUPS } from '../exercises.js';
+import { bodyMapSvg } from '../body-map.js';
+import { anatomySvg, LABEL_META } from '../anatomy.js';
+import { muscleLoad, sportBreakdown } from '../analytics.js';
 import { topbar, emptyState, refresh, sheet, confirmDialog, toast, promptDialog } from '../ui.js';
 import { openMeasureSheet, openPhotoSheet, PHOTO_TYPES } from './measure.js';
 
@@ -40,6 +43,10 @@ export default function renderProgress() {
   const streak = currentStreak();
   const measurements = measurementSeries();
   const lastM = measurements[measurements.length - 1];
+  const load = muscleLoad(from, isoDate(new Date()));
+  const pctMap = Object.fromEntries(load.groups.map((g) => [g.group, g.pct]));
+  const sportPct = load.groups.filter((g) => g.group === 'sport' || g.group === 'cardio').reduce((a, g) => a + g.pct, 0);
+  const sports = sportBreakdown(from, isoDate(new Date()));
 
   const body = `
     <div class="pad" style="margin-top:6px">
@@ -74,12 +81,57 @@ export default function renderProgress() {
       </div>
     </div>
 
-    <div class="section-title"><h2>Нагрузка по группам</h2><span class="muted">подходы</span></div>
+    <div class="section-title"><h2>Нагрузка по группам</h2><span class="muted">% от всей нагрузки</span></div>
     <div class="pad">
-      <div class="card card--pad">
-        ${groupBars(gv)}
+      <div class="card card--pad bodymap-card">
+        <div class="anatomy-wrap">
+          ${anatomySvg(
+            Object.fromEntries(MUSCLE_GROUPS.map((g) => [g, pctMap[g] || 0])),
+            LABEL_META.map((m) => ({ ...m, pct: pctMap[m.key] || 0 }))
+          )}
+        </div>
+        <div class="anatomy-caption">
+          <span class="anatomy-caption__dot"></span>
+          <span>${load.workouts} ${plural(load.workouts, "тренировка", "тренировки", "тренировок")} · ${periodLabel(period).toLowerCase()}</span>
+        </div>
+        <div class="bodymap-legend">
+          ${load.groups
+            .filter((x) => x.group !== "cardio" && x.group !== "sport")
+            .map(
+              (x) => `<div class="bm-row">
+                <span class="bm-dot" style="background:${GROUPS[x.group].color}"></span>
+                <span class="bm-name">${GROUPS[x.group].label}</span>
+                <span class="bm-pct num">${Math.round(x.pct)}%</span>
+                <span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, x.pct * 2)}%;background:${GROUPS[x.group].color}"></span></span>
+              </div>`
+            )
+            .join("")}
+          ${load.sportSeconds ? `<div class="bm-row bm-row--sport"><span class="bm-dot" style="background:${GROUPS.sport.color}"></span><span class="bm-name">Спорт</span><span class="bm-pct num">${Math.round(sportPct)}%</span><span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, sportPct * 2)}%;background:${GROUPS.sport.color}"></span></span></div>` : ""}
+        </div>
       </div>
+      ${load.workouts === 0 ? '<div class="hint-box" style="margin-top:10px">Нет данных за период — проведите тренировку или добавьте спорт.</div>' : ""}
     </div>
+
+    ${
+      sports.length
+        ? `<div class="section-title"><h2>Спорт за период</h2><span class="muted">${fmtMinutes(load.sportSeconds)}</span></div>
+        <div class="pad"><div class="card card--pad">
+          ${sports
+            .map(
+              (sp) => `<div class="gbar">
+                <span class="gbar__dot" style="background:${GROUPS.sport.color}"></span>
+                <span class="gbar__label" style="width:auto;flex:1">${escapeHtml(sp.name)}</span>
+                <span class="gbar__val num" style="width:auto">${fmtMinutes(sp.minutes * 60)}</span>
+                <span class="badge" style="margin-left:8px">${sp.sessions}</span>
+              </div>`
+            )
+            .join("")}
+          <button class="btn btn--soft btn--sm btn--block" style="margin-top:10px" data-action="open-sport">${icon("plus", 15)} Добавить спорт</button>
+        </div></div>`
+        : `<div class="pad" style="margin-top:10px">
+            <button class="btn btn--outline btn--block" data-action="open-sport">${icon("plus", 17)} Добавить спорт</button>
+          </div>`
+    }
 
     ${
       top.length
