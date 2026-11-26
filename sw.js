@@ -1,7 +1,7 @@
 ﻿/* ============================================================
    Service worker: офлайн-работа приложения
    ============================================================ */
-const VERSION = 'atlet-v1.1.0';
+const VERSION = 'atlet-v1.2.0';
 const CORE = [
   './',
   './index.html',
@@ -23,6 +23,7 @@ const CORE = [
   './js/timer.js',
   './js/session.js',
   './js/ui.js',
+  './js/importer.js',
   './js/seed.js',
   './js/views/today.js',
   './js/views/session.js',
@@ -34,6 +35,7 @@ const CORE = [
   './js/views/picker.js',
   './js/views/group-picker.js',
   './js/views/measure.js',
+  './js/views/import.js',
   './icons/icon.svg',
   './icons/icon-180.png',
   './icons/icon-192.png',

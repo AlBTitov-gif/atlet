@@ -35,6 +35,7 @@ import {
   openMeasureSheet, openMeasureHistory, openPhotoSheet, viewPhoto, viewAllPhotos,
 } from './views/measure.js';
 import { seedDemo } from './seed.js';
+import { openImporter } from './views/import.js';
 
 /* ---------- хранилище навигации ---------- */
 const history = [];
@@ -484,6 +485,7 @@ action('install-help', () => installHelpSheet());
 action('about', () => aboutSheet());
 action('export-data', () => doExport());
 action('import-data', () => doImport());
+action('import-history', () => openImporter());
 action('reset-all', () => doReset());
 action('seed-demo', async () => {
   const ok = await confirmDialog({

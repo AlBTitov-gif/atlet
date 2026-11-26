@@ -49,7 +49,8 @@ export default function renderJournal() {
               iconName: 'calendar',
               title: 'Журнал пуст',
               text: 'Завершённые тренировки появятся здесь: объём, время, группы мышц и лучшие подходы.',
-              action: `<button class="btn btn--primary btn--sm" data-action="start-blank">${icon('play', 15)} Начать тренировку</button>`,
+              action: `<button class="btn btn--primary btn--sm" data-action="start-blank">${icon('play', 15)} Начать тренировку</button>
+                <button class="btn btn--soft btn--sm" data-action="import-history" style="margin-top:2px">${icon('upload', 15)} Импортировать историю</button>`,
             })
       }
     </div>`;

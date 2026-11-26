@@ -145,8 +145,14 @@ export default function renderProfile() {
         </button>
         <button class="list__row" data-action="import-data">
           <span class="list__icon">${icon('upload', 18)}</span>
-          <span class="grow"><span class="list__label" style="display:block">Импорт из файла</span>
-            <span class="list__sub">Восстановить историю</span></span>
+          <span class="grow"><span class="list__label" style="display:block">Импорт резервной копии</span>
+            <span class="list__sub">JSON-файл Атлета</span></span>
+          ${icon('chevronRight', 18, 'list__chev')}
+        </button>
+        <button class="list__row" data-action="import-history">
+          <span class="list__icon list__icon--accent">${icon('history', 18)}</span>
+          <span class="grow"><span class="list__label" style="display:block">Импорт истории тренировок</span>
+            <span class="list__sub">Из другого приложения: текст, CSV, JSON</span></span>
           ${icon('chevronRight', 18, 'list__chev')}
         </button>
         <button class="list__row" data-action="seed-demo">
