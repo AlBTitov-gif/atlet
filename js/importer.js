@@ -67,6 +67,23 @@ const ALIASES = {
   'бёрпи': 'burpee',
   'берпи': 'burpee',
   'махи гирей': 'kb-swing',
+  'поочередное сгибание рук с разворотом сидя': 'db-curl',
+  'поочередное сгибание рук с разворотом': 'db-curl',
+  'сгибание рук с разворотом сидя': 'db-curl',
+  'разведение гантелей на наклонной (30°) вверх скамье': 'db-fly',
+  'разведение гантелей на наклонной вверх скамье': 'db-fly',
+  'разведение гантелей на наклонной вверх': 'db-fly',
+  'подъем гантелей на наклонной вверх': 'incline-db-press',
+  'разведение гантелей на наклонной скамье': 'db-fly',
+  'разведение гантелей на наклонной': 'db-fly',
+  'жим гантелей на наклонной (30°) скамье вверх': 'incline-db-press',
+  'подъем туловища лежа на полу': 'crunch',
+  'становая тяга': 'rdl',
+  'горизонтальная тяга блока сидя узким хватом': 'seated-row',
+  'разгибание рук в блоке с веревками': 'pushdown',
+  'подъем ног в висе на турнике': 'hanging-knee-raise',
+  'подтягивания широким прямым хватом к груди': 'pull-up',
+  'отжимания на брусьях': 'dips',
 };
 
 export function normalizeName(name) {
@@ -78,8 +95,16 @@ export function normalizeName(name) {
     .trim();
 }
 
+export function cleanExerciseName(name) {
+  return String(name || '')
+    .replace(/[,\s;:]+$/g, '')
+    .replace(/\(\d+°?\)/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 export function matchExercise(name) {
-  const n = normalizeName(name);
+  const n = normalizeName(cleanExerciseName(name));
   if (!n) return null;
   const all = [...baseExercises(), ...(state.customExercises || [])];
   // точное
@@ -150,6 +175,7 @@ export function parseHistoryText(text) {
   const lines = rawLines.map((l) => l.trim()).filter((l) => l && !/^[-=_\s]+$/.test(l));
 
   const workouts = [];
+  const unknown = [];
   let current = null;
   const problems = [];
 
@@ -273,13 +299,17 @@ export function parseHistoryText(text) {
         .replace(SET_RE, '')
         .replace(REPS_ONLY_RE, (m, g) => m.slice(0, m.indexOf(g)))
         .replace(/[—–\-:]+$/, '')
+        .replace(/[,\s]+$/, '')
         .trim();
       const ex = matchExercise(namePart);
       if (ex) {
         current.items.push({ exerciseId: ex.id, sets: setList });
         continue;
       }
-      if (namePart) problems.push(`Не найдено упражнение: «${namePart}»`);
+      if (namePart) {
+        problems.push(`Не найдено упражнение: «${namePart}»`);
+        unknown.push({ name: cleanExerciseName(namePart), sets: setList, date: current?.date });
+      }
     } else {
       const ex = matchExercise(line);
       if (ex) {
@@ -292,6 +322,7 @@ export function parseHistoryText(text) {
   const measurements = parseMeasurements(text);
 
   return {
+    unknown,
     workouts: workouts
       .map((w) => ({ ...w, items: w.items.filter((it) => it.sets.length) }))
       .filter((w) => w.items.length),
@@ -349,6 +380,51 @@ export function importWorkouts(list, { replace = false } = {}) {
   state.workouts = [...existing, ...fresh].sort((a, b) => b.startedAt - a.startedAt);
   save({ immediate: true });
   return fresh.length;
+}
+
+/** Создаёт свои упражнения для незнакомых названий и добавляет подходы в тренировки */
+export function adoptUnknown(parsed) {
+  if (!parsed?.unknown?.length) return 0;
+  let created = 0;
+  for (const u of parsed.unknown) {
+    let ex = matchExercise(u.name);
+    if (!ex) {
+      const guessGroup = /присед|выпад|ног|ягод/i.test(u.name)
+        ? 'legs'
+        : /жим|груд|развед/i.test(u.name)
+          ? 'chest'
+          : /тяга|спин|подтяг/i.test(u.name)
+            ? 'back'
+            : /бицепс|трицепс|рук/i.test(u.name)
+              ? 'arms'
+              : /плеч|дельт|мах/i.test(u.name)
+                ? 'shoulders'
+                : /пресс|планк|скруч|живот/i.test(u.name)
+                  ? 'core'
+                  : 'other';
+      ex = {
+        id: 'c-' + uid('x'),
+        name: u.name,
+        group: guessGroup,
+        eq: 'other',
+        level: 1,
+        compound: false,
+        cues: ['Своё упражнение, добавлено при импорте истории.'],
+        alts: [],
+        time: false,
+        dist: false,
+        custom: true,
+      };
+      state.customExercises = [...(state.customExercises || []), ex];
+      created++;
+    }
+    const w = (parsed.workouts || []).find((x) => x.date === u.date);
+    if (w) w.items.push({ exerciseId: ex.id, sets: u.sets });
+  }
+  if (created) save({ immediate: true });
+  parsed.unknown = [];
+  parsed.problems = (parsed.problems || []).filter((p) => !p.startsWith('Не найдено упражнение'));
+  return created;
 }
 
 /** Добавляет замеры (вес/обхваты), по одной записи на дату */

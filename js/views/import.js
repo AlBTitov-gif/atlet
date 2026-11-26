@@ -5,7 +5,7 @@ import { state, save } from '../store.js';
 import { icon } from '../icons.js';
 import { escapeHtml, num, isoDate, fmtDate, fmtVolume, plural, uid, parseDate, startOfDay } from '../utils.js';
 import { sheet, toast, refresh, confirmDialog } from '../ui.js';
-import { parseHistoryText, buildWorkouts, importWorkouts, importMeasurements, matchExercise } from '../importer.js';
+import { parseHistoryText, buildWorkouts, importWorkouts, importMeasurements, matchExercise, adoptUnknown } from '../importer.js';
 import { workoutVolume, exerciseName } from '../analytics.js';
 
 const MEASURE_LABELS = { weight: 'вес', waist: 'талия', chest: 'грудь', hips: 'бёдра', biceps: 'бицепс', neck: 'шея', thigh: 'бедро', calf: 'голень', bodyfat: 'жир %' };
@@ -103,6 +103,7 @@ export function openImporter() {
             .join('')}
         </div>
         ${workouts.length > 12 ? `<div class="tiny" style="margin-top:6px">и ещё ${workouts.length - 12}…</div>` : ''}
+        ${parsed?.unknown?.length ? `<div class="tiny" style="margin-top:8px;color:var(--info)">Незнакомые упражнения (${parsed.unknown.length}) будут созданы как свои: ${escapeHtml([...new Set(parsed.unknown.map((u) => u.name))].slice(0, 3).join(', '))}</div>` : ''}
         ${
           problems.length
             ? `<div class="tiny" style="margin-top:8px;color:var(--warn)">Пропущено: ${escapeHtml(problems.slice(0, 3).join('; '))}</div>`
@@ -169,7 +170,10 @@ export function openImporter() {
 
   runBtn.addEventListener('click', async () => {
     let list = fileList;
-    if (!list) list = buildWorkouts(parsed);
+    if (!list) {
+      if (parsed?.unknown?.length) adoptUnknown(parsed);
+      list = buildWorkouts(parsed);
+    }
     if (!list.length) return;
     const replaceEl = sh.el.querySelector('[data-im-replace]');
     const replace = !!replaceEl?.checked;
@@ -194,7 +198,7 @@ export function openImporter() {
 /** Приводит чужой JSON к нашему виду (дата, упражнение, подходы) */
 function normalizeForeignWorkout(raw) {
   if (!raw || typeof raw !== 'object') return null;
-  const dateRaw = raw.date || raw.day || raw.startedAt || raw.created_at;
+  const dateRaw = raw.date || raw.day || raw.startedAt || raw.created_at || raw.finishedAt;
   let dateIso = isoDate(new Date());
   if (typeof dateRaw === 'string') {
     if (/^\d{4}-\d{2}-\d{2}/.test(dateRaw)) dateIso = dateRaw.slice(0, 10);
@@ -205,28 +209,48 @@ function normalizeForeignWorkout(raw) {
   } else if (typeof dateRaw === 'number') {
     dateIso = isoDate(new Date(dateRaw));
   }
-  const rawItems = raw.items || raw.exercises || raw.sets || [];
-  const items = [];
-  if (Array.isArray(rawItems)) {
-    for (const it of rawItems) {
-      const name = it.name || it.exercise || it.title || it.exerciseName;
+
+  let items = [];
+  if (Array.isArray(raw.items)) items = raw.items;
+  else if (Array.isArray(raw.exercises)) items = raw.exercises;
+  else if (Array.isArray(raw.sets)) {
+    // плоский формат: [{exercise, weight, reps}]
+    items = [];
+    for (const s of raw.sets) {
+      const name = s.exercise || s.exerciseName || s.title;
       if (!name) continue;
-      const ex = matchExercise(name);
-      if (!ex) continue;
-      let sets = [];
-      const rawSets = it.sets || it.reps || [];
-      if (Array.isArray(rawSets)) {
-        for (const s of rawSets) {
-          if (typeof s === 'number') sets.push({ weight: 0, reps: s });
-          else if (s && typeof s === 'object') {
-            sets.push({ weight: num(s.weight ?? s.kg), reps: num(s.reps ?? s.repeat) });
-          }
-        }
-      }
-      if (sets.length) items.push({ exerciseId: ex.id, sets });
+      items.push({ name, sets: [{ weight: s.weight ?? s.kg, reps: s.reps ?? s.repeat }] });
     }
   }
-  if (!items.length) return null;
+
+  const out = [];
+  for (const it of items) {
+    const name = it.name || it.exercise || it.title || it.exerciseName;
+    if (!name) continue;
+    let ex = matchExercise(name);
+    if (!ex) continue; // неизвестные добавляются отдельно
+    const rawSets = it.sets || it.reps || it.performedSets || [];
+    let sets = [];
+    if (Array.isArray(rawSets)) {
+      for (const s of rawSets) {
+        if (typeof s === 'number') sets.push({ weight: 0, reps: s });
+        else if (typeof s === 'string') {
+          const m = s.match(/(\d+(?:[.,]\d+)?)\s*[xх×]\s*(\d+)/i);
+          if (m) sets.push({ weight: num(m[1]), reps: num(m[2]) });
+          else {
+            const r = num(s);
+            if (r > 0 && r <= 100) sets.push({ weight: 0, reps: r });
+          }
+        } else if (s && typeof s === 'object') {
+          const w = num(s.weight ?? s.kg ?? s.load);
+          const r = num(s.reps ?? s.repeat ?? s.repsCount ?? s.count);
+          if (r > 0) sets.push({ weight: w, reps: r });
+        }
+      }
+    }
+    if (sets.length) out.push({ exerciseId: ex.id, sets });
+  }
+  if (!out.length) return null;
   const startedAt = new Date(`${dateIso}T19:00:00`).getTime();
   return {
     id: uid('w'),
@@ -237,7 +261,7 @@ function normalizeForeignWorkout(raw) {
     startedAt,
     finishedAt: startedAt + 60 * 60000,
     notes: raw.notes || raw.note || '',
-    items: items.map((it) => ({
+    items: out.map((it) => ({
       id: uid('it'),
       exerciseId: it.exerciseId,
       note: '',

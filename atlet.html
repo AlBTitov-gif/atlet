@@ -8266,6 +8266,23 @@ const ALIASES = {
   'бёрпи': 'burpee',
   'берпи': 'burpee',
   'махи гирей': 'kb-swing',
+  'поочередное сгибание рук с разворотом сидя': 'db-curl',
+  'поочередное сгибание рук с разворотом': 'db-curl',
+  'сгибание рук с разворотом сидя': 'db-curl',
+  'разведение гантелей на наклонной (30°) вверх скамье': 'db-fly',
+  'разведение гантелей на наклонной вверх скамье': 'db-fly',
+  'разведение гантелей на наклонной вверх': 'db-fly',
+  'подъем гантелей на наклонной вверх': 'incline-db-press',
+  'разведение гантелей на наклонной скамье': 'db-fly',
+  'разведение гантелей на наклонной': 'db-fly',
+  'жим гантелей на наклонной (30°) скамье вверх': 'incline-db-press',
+  'подъем туловища лежа на полу': 'crunch',
+  'становая тяга': 'rdl',
+  'горизонтальная тяга блока сидя узким хватом': 'seated-row',
+  'разгибание рук в блоке с веревками': 'pushdown',
+  'подъем ног в висе на турнике': 'hanging-knee-raise',
+  'подтягивания широким прямым хватом к груди': 'pull-up',
+  'отжимания на брусьях': 'dips',
 };
 
 function normalizeName(name) {
@@ -8277,8 +8294,16 @@ function normalizeName(name) {
     .trim();
 }
 
+function cleanExerciseName(name) {
+  return String(name || '')
+    .replace(/[,\s;:]+$/g, '')
+    .replace(/\(\d+°?\)/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 function matchExercise(name) {
-  const n = normalizeName(name);
+  const n = normalizeName(cleanExerciseName(name));
   if (!n) return null;
   const all = [...baseExercises(), ...(state.customExercises || [])];
   // точное
@@ -8349,6 +8374,7 @@ function parseHistoryText(text) {
   const lines = rawLines.map((l) => l.trim()).filter((l) => l && !/^[-=_\s]+$/.test(l));
 
   const workouts = [];
+  const unknown = [];
   let current = null;
   const problems = [];
 
@@ -8472,13 +8498,17 @@ function parseHistoryText(text) {
         .replace(SET_RE, '')
         .replace(REPS_ONLY_RE, (m, g) => m.slice(0, m.indexOf(g)))
         .replace(/[—–\-:]+$/, '')
+        .replace(/[,\s]+$/, '')
         .trim();
       const ex = matchExercise(namePart);
       if (ex) {
         current.items.push({ exerciseId: ex.id, sets: setList });
         continue;
       }
-      if (namePart) problems.push(`Не найдено упражнение: «${namePart}»`);
+      if (namePart) {
+        problems.push(`Не найдено упражнение: «${namePart}»`);
+        unknown.push({ name: cleanExerciseName(namePart), sets: setList, date: current?.date });
+      }
     } else {
       const ex = matchExercise(line);
       if (ex) {
@@ -8491,6 +8521,7 @@ function parseHistoryText(text) {
   const measurements = parseMeasurements(text);
 
   return {
+    unknown,
     workouts: workouts
       .map((w) => ({ ...w, items: w.items.filter((it) => it.sets.length) }))
       .filter((w) => w.items.length),
@@ -8548,6 +8579,51 @@ function importWorkouts(list, { replace = false } = {}) {
   state.workouts = [...existing, ...fresh].sort((a, b) => b.startedAt - a.startedAt);
   save({ immediate: true });
   return fresh.length;
+}
+
+/** Создаёт свои упражнения для незнакомых названий и добавляет подходы в тренировки */
+function adoptUnknown(parsed) {
+  if (!parsed?.unknown?.length) return 0;
+  let created = 0;
+  for (const u of parsed.unknown) {
+    let ex = matchExercise(u.name);
+    if (!ex) {
+      const guessGroup = /присед|выпад|ног|ягод/i.test(u.name)
+        ? 'legs'
+        : /жим|груд|развед/i.test(u.name)
+          ? 'chest'
+          : /тяга|спин|подтяг/i.test(u.name)
+            ? 'back'
+            : /бицепс|трицепс|рук/i.test(u.name)
+              ? 'arms'
+              : /плеч|дельт|мах/i.test(u.name)
+                ? 'shoulders'
+                : /пресс|планк|скруч|живот/i.test(u.name)
+                  ? 'core'
+                  : 'other';
+      ex = {
+        id: 'c-' + uid('x'),
+        name: u.name,
+        group: guessGroup,
+        eq: 'other',
+        level: 1,
+        compound: false,
+        cues: ['Своё упражнение, добавлено при импорте истории.'],
+        alts: [],
+        time: false,
+        dist: false,
+        custom: true,
+      };
+      state.customExercises = [...(state.customExercises || []), ex];
+      created++;
+    }
+    const w = (parsed.workouts || []).find((x) => x.date === u.date);
+    if (w) w.items.push({ exerciseId: ex.id, sets: u.sets });
+  }
+  if (created) save({ immediate: true });
+  parsed.unknown = [];
+  parsed.problems = (parsed.problems || []).filter((p) => !p.startsWith('Не найдено упражнение'));
+  return created;
 }
 
 /** Добавляет замеры (вес/обхваты), по одной записи на дату */
@@ -8675,6 +8751,7 @@ function openImporter() {
             .join('')}
         </div>
         ${workouts.length > 12 ? `<div class="tiny" style="margin-top:6px">и ещё ${workouts.length - 12}…</div>` : ''}
+        ${parsed?.unknown?.length ? `<div class="tiny" style="margin-top:8px;color:var(--info)">Незнакомые упражнения (${parsed.unknown.length}) будут созданы как свои: ${escapeHtml([...new Set(parsed.unknown.map((u) => u.name))].slice(0, 3).join(', '))}</div>` : ''}
         ${
           problems.length
             ? `<div class="tiny" style="margin-top:8px;color:var(--warn)">Пропущено: ${escapeHtml(problems.slice(0, 3).join('; '))}</div>`
@@ -8741,7 +8818,10 @@ function openImporter() {
 
   runBtn.addEventListener('click', async () => {
     let list = fileList;
-    if (!list) list = buildWorkouts(parsed);
+    if (!list) {
+      if (parsed?.unknown?.length) adoptUnknown(parsed);
+      list = buildWorkouts(parsed);
+    }
     if (!list.length) return;
     const replaceEl = sh.el.querySelector('[data-im-replace]');
     const replace = !!replaceEl?.checked;
@@ -8766,7 +8846,7 @@ function openImporter() {
 /** Приводит чужой JSON к нашему виду (дата, упражнение, подходы) */
 function normalizeForeignWorkout(raw) {
   if (!raw || typeof raw !== 'object') return null;
-  const dateRaw = raw.date || raw.day || raw.startedAt || raw.created_at;
+  const dateRaw = raw.date || raw.day || raw.startedAt || raw.created_at || raw.finishedAt;
   let dateIso = isoDate(new Date());
   if (typeof dateRaw === 'string') {
     if (/^\d{4}-\d{2}-\d{2}/.test(dateRaw)) dateIso = dateRaw.slice(0, 10);
@@ -8777,28 +8857,48 @@ function normalizeForeignWorkout(raw) {
   } else if (typeof dateRaw === 'number') {
     dateIso = isoDate(new Date(dateRaw));
   }
-  const rawItems = raw.items || raw.exercises || raw.sets || [];
-  const items = [];
-  if (Array.isArray(rawItems)) {
-    for (const it of rawItems) {
-      const name = it.name || it.exercise || it.title || it.exerciseName;
+
+  let items = [];
+  if (Array.isArray(raw.items)) items = raw.items;
+  else if (Array.isArray(raw.exercises)) items = raw.exercises;
+  else if (Array.isArray(raw.sets)) {
+    // плоский формат: [{exercise, weight, reps}]
+    items = [];
+    for (const s of raw.sets) {
+      const name = s.exercise || s.exerciseName || s.title;
       if (!name) continue;
-      const ex = matchExercise(name);
-      if (!ex) continue;
-      let sets = [];
-      const rawSets = it.sets || it.reps || [];
-      if (Array.isArray(rawSets)) {
-        for (const s of rawSets) {
-          if (typeof s === 'number') sets.push({ weight: 0, reps: s });
-          else if (s && typeof s === 'object') {
-            sets.push({ weight: num(s.weight ?? s.kg), reps: num(s.reps ?? s.repeat) });
-          }
-        }
-      }
-      if (sets.length) items.push({ exerciseId: ex.id, sets });
+      items.push({ name, sets: [{ weight: s.weight ?? s.kg, reps: s.reps ?? s.repeat }] });
     }
   }
-  if (!items.length) return null;
+
+  const out = [];
+  for (const it of items) {
+    const name = it.name || it.exercise || it.title || it.exerciseName;
+    if (!name) continue;
+    let ex = matchExercise(name);
+    if (!ex) continue; // неизвестные добавляются отдельно
+    const rawSets = it.sets || it.reps || it.performedSets || [];
+    let sets = [];
+    if (Array.isArray(rawSets)) {
+      for (const s of rawSets) {
+        if (typeof s === 'number') sets.push({ weight: 0, reps: s });
+        else if (typeof s === 'string') {
+          const m = s.match(/(\d+(?:[.,]\d+)?)\s*[xх×]\s*(\d+)/i);
+          if (m) sets.push({ weight: num(m[1]), reps: num(m[2]) });
+          else {
+            const r = num(s);
+            if (r > 0 && r <= 100) sets.push({ weight: 0, reps: r });
+          }
+        } else if (s && typeof s === 'object') {
+          const w = num(s.weight ?? s.kg ?? s.load);
+          const r = num(s.reps ?? s.repeat ?? s.repsCount ?? s.count);
+          if (r > 0) sets.push({ weight: w, reps: r });
+        }
+      }
+    }
+    if (sets.length) out.push({ exerciseId: ex.id, sets });
+  }
+  if (!out.length) return null;
   const startedAt = new Date(`${dateIso}T19:00:00`).getTime();
   return {
     id: uid('w'),
@@ -8809,7 +8909,7 @@ function normalizeForeignWorkout(raw) {
     startedAt,
     finishedAt: startedAt + 60 * 60000,
     notes: raw.notes || raw.note || '',
-    items: items.map((it) => ({
+    items: out.map((it) => ({
       id: uid('it'),
       exerciseId: it.exerciseId,
       note: '',
