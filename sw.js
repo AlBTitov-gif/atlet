@@ -1,7 +1,7 @@
 ﻿/* ============================================================
    Service worker: офлайн-работа приложения
    ============================================================ */
-const VERSION = 'atlet-v1.4.0';
+const VERSION = 'atlet-v1.5.1';
 const CORE = [
   './',
   './index.html',
@@ -27,6 +27,7 @@ const CORE = [
   './js/sports.js',
   './js/body-map.js',
   './js/anatomy.js',
+  './js/anatomy360.js',
   './js/views/sport.js',
   './js/seed.js',
   './js/views/today.js',

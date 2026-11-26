@@ -14,6 +14,7 @@ import {
 import { GROUPS, GROUP_ORDER, MUSCLE_GROUPS } from '../exercises.js';
 import { bodyMapSvg } from '../body-map.js';
 import { anatomySvg, LABEL_META } from '../anatomy.js';
+import { anatomy360Html, mountAnatomy360 } from '../anatomy360.js';
 import { muscleLoad, sportBreakdown } from '../analytics.js';
 import { topbar, emptyState, refresh, sheet, confirmDialog, toast, promptDialog } from '../ui.js';
 import { openMeasureSheet, openPhotoSheet, PHOTO_TYPES } from './measure.js';
@@ -85,10 +86,7 @@ export default function renderProgress() {
     <div class="pad">
       <div class="card card--pad bodymap-card">
         <div class="anatomy-wrap">
-          ${anatomySvg(
-            Object.fromEntries(MUSCLE_GROUPS.map((g) => [g, pctMap[g] || 0])),
-            LABEL_META.map((m) => ({ ...m, pct: pctMap[m.key] || 0 }))
-          )}
+          ${anatomy360Html(pctMap)}
         </div>
         <div class="anatomy-caption">
           <span class="anatomy-caption__dot"></span>
@@ -227,6 +225,7 @@ export default function renderProgress() {
                   <button class="btn btn--icon btn--soft" data-action="open-photo" aria-label="Добавить фото">${icon('camera', 19)}</button>`,
       }) + `<div class="view">${body}</div>`,
     mount() {
+      mountAnatomy360();
       for (const b of document.querySelectorAll('[data-period]')) {
         b.addEventListener('click', () => {
           period = b.dataset.period;
