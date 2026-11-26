@@ -491,3 +491,37 @@
   font-size: 11px;
   color: var(--text-3);
 }
+
+/* послойная подсветка мышц */
+.f360-frame__tints {
+  position: absolute;
+  inset: 0;
+}
+.f360-tint {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: color;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  pointer-events: none;
+  transition: background 0.35s, opacity 0.35s;
+}
+.f360__legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.f360__grad {
+  display: block;
+  width: 84px;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #527bb9, #63afcb 25%, #e4c861 50%, #f18c38 75%, #e91e2c);
+}
