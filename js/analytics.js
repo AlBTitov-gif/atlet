@@ -3,6 +3,7 @@
    ============================================================ */
 import { baseExercises, GROUPS } from './exercises.js';
 import { SPORTS, isSport, sportOf, sportScore, MINUTES_PER_SET } from './sports.js';
+import { MUSCLES, exerciseMuscles } from './muscles.js';
 import { num, sum, e1rm, isoDate, startOfWeek, addDays, parseDate, daysBetween, groupBy } from './utils.js';
 import { state } from './store.js';
 
@@ -325,6 +326,43 @@ export function sportBreakdown(fromIso, toIso = isoDate(new Date())) {
     }
   }
   return [...map.values()].sort((a, b) => b.minutes - a.minutes);
+}
+
+
+/** Нагрузка по конкретным мышцам (бицепс, трицепс, квадрицепс и т.д.) */
+export function muscleLoadDetail(fromIso, toIso = isoDate(new Date())) {
+  const scores = {};
+  for (const m of MUSCLES) scores[m] = 0;
+  const ws = finishedWorkouts().filter((w) => {
+    const d = w.date || isoDate(w.startedAt);
+    return d >= fromIso && d <= toIso;
+  });
+  for (const w of ws) {
+    for (const it of w.items || []) {
+      const ex = exerciseById(it.exerciseId);
+      if (!ex) continue;
+      const done = (it.sets || []).filter((s) => s.done);
+      if (!done.length) continue;
+      const mm = exerciseMuscles(ex);
+      let amount;
+      if (ex.sport) {
+        const minutes = sum(done, (s) => num(s.duration)) || 45;
+        amount = Math.max(0.6, minutes / 5);
+      } else {
+        amount = done.length * (ex.compound ? 1.15 : 1);
+      }
+      for (const [muscle, weight] of Object.entries(mm)) {
+        if (scores[muscle] === undefined) continue;
+        scores[muscle] += amount * weight;
+      }
+    }
+  }
+  const total = MUSCLES.reduce((x, m) => x + scores[m], 0);
+  return MUSCLES.map((m) => ({
+    muscle: m,
+    score: scores[m],
+    pct: total > 0 ? (scores[m] / total) * 100 : 0,
+  })).sort((x, y) => y.pct - x.pct);
 }
 
 /** Данные для графика объёма по неделям: [{label, volume, count}] */

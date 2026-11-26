@@ -4,7 +4,8 @@
    ============================================================ */
 
 const VIEWS = [0, 45, 90, 135, 180, 225, 270, 315];
-const GROUPS7 = ['chest', 'back', 'shoulders', 'arms', 'core', 'glutes', 'legs'];
+import { ZONES, zoneValue } from './muscles.js';
+
 
 const VIEW_NAME = {
   0: 'Спереди',
@@ -52,17 +53,18 @@ export function heatColor(pct) {
 
 function frameHtml(angle, index, pct) {
   const n = String(angle).padStart(3, '0');
-  const maxPct = Math.max(1, ...GROUPS7.map((g) => pct[g] || 0));
-  const tints = GROUPS7.map((g) => {
-    const v = pct[g] || 0;
-    if (v <= 0.4) return '';
-    const rel = (v / maxPct) * 100;
-    const opacity = Math.min(0.95, 0.5 + (rel / 100) * 0.4);
+  const maxPct = Math.max(1, ...Object.values(pct));
+  const tints = ZONES.map((zone) => {
+    const v = zoneValue(zone, angle, pct);
+    const ratio = v / maxPct;
+    if (ratio < 0.45) return '';
+    const rel = ratio * 100;
+    const opacity = Math.min(0.9, 0.28 + ratio * 0.55);
     return (
-      `<div class="f360-tint" data-group="${g}" data-pct="${v.toFixed(1)}" ` +
+      `<div class="f360-tint" data-zone="${zone}" data-pct="${v.toFixed(1)}" ` +
       `style="background:${heatColor(rel)};opacity:${opacity.toFixed(2)};` +
-      `-webkit-mask-image:url(assets/anatomy/${n}-${g}.png);` +
-      `mask-image:url(assets/anatomy/${n}-${g}.png)"></div>`
+      `-webkit-mask-image:url(assets/anatomy/${n}-${zone}.png);` +
+      `mask-image:url(assets/anatomy/${n}-${zone}.png)"></div>`
     );
   }).join('');
   return (

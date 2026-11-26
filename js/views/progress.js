@@ -14,8 +14,9 @@ import {
 import { GROUPS, GROUP_ORDER, MUSCLE_GROUPS } from '../exercises.js';
 import { bodyMapSvg } from '../body-map.js';
 import { anatomySvg, LABEL_META } from '../anatomy.js';
-import { anatomy360Html, mountAnatomy360 } from '../anatomy360.js';
-import { muscleLoad, sportBreakdown } from '../analytics.js';
+import { anatomy360Html, mountAnatomy360, heatColor } from '../anatomy360.js';
+import { muscleLoad, muscleLoadDetail, sportBreakdown } from '../analytics.js';
+import { MUSCLE_LABEL } from '../muscles.js';
 import { topbar, emptyState, refresh, sheet, confirmDialog, toast, promptDialog } from '../ui.js';
 import { openMeasureSheet, openPhotoSheet, PHOTO_TYPES } from './measure.js';
 
@@ -46,6 +47,9 @@ export default function renderProgress() {
   const lastM = measurements[measurements.length - 1];
   const load = muscleLoad(from, isoDate(new Date()));
   const pctMap = Object.fromEntries(load.groups.map((g) => [g.group, g.pct]));
+  const muscleLoads = muscleLoadDetail(from, isoDate(new Date()));
+  const musclePct = Object.fromEntries(muscleLoads.map((m) => [m.muscle, m.pct]));
+  const muscleMax = Math.max(1, ...muscleLoads.map((m) => m.pct));
   const sportPct = load.groups.filter((g) => g.group === 'sport' || g.group === 'cardio').reduce((a, g) => a + g.pct, 0);
   const sports = sportBreakdown(from, isoDate(new Date()));
 
@@ -82,27 +86,29 @@ export default function renderProgress() {
       </div>
     </div>
 
-    <div class="section-title"><h2>Нагрузка по группам</h2><span class="muted">% от всей нагрузки</span></div>
+    <div class="section-title"><h2>Нагрузка по мышцам</h2><span class="muted">% от всей нагрузки</span></div>
     <div class="pad">
       <div class="card card--pad bodymap-card">
         <div class="anatomy-wrap">
-          ${anatomy360Html(pctMap)}
+          ${anatomy360Html(musclePct)}
         </div>
         <div class="anatomy-caption">
           <span class="anatomy-caption__dot"></span>
           <span>${load.workouts} ${plural(load.workouts, "тренировка", "тренировки", "тренировок")} · ${periodLabel(period).toLowerCase()}</span>
         </div>
         <div class="bodymap-legend">
-          ${load.groups
-            .filter((x) => x.group !== "cardio" && x.group !== "sport")
-            .map(
-              (x) => `<div class="bm-row">
-                <span class="bm-dot" style="background:${GROUPS[x.group].color}"></span>
-                <span class="bm-name">${GROUPS[x.group].label}</span>
+          ${muscleLoads
+            .filter((x) => x.pct >= 0.5)
+            .map((x) => {
+              const rel = (x.pct / muscleMax) * 100;
+              const color = heatColor(rel);
+              return `<div class="bm-row">
+                <span class="bm-dot" style="background:${color}"></span>
+                <span class="bm-name">${MUSCLE_LABEL[x.muscle]}</span>
                 <span class="bm-pct num">${Math.round(x.pct)}%</span>
-                <span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, x.pct * 2)}%;background:${GROUPS[x.group].color}"></span></span>
-              </div>`
-            )
+                <span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, rel * 0.92)}%;background:${color}"></span></span>
+              </div>`;
+            })
             .join("")}
           ${load.sportSeconds ? `<div class="bm-row bm-row--sport"><span class="bm-dot" style="background:${GROUPS.sport.color}"></span><span class="bm-name">Спорт</span><span class="bm-pct num">${Math.round(sportPct)}%</span><span class="bm-track"><span class="bm-fill" style="width:${Math.min(100, sportPct * 2)}%;background:${GROUPS.sport.color}"></span></span></div>` : ""}
         </div>
