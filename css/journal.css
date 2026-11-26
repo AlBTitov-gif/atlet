@@ -1,0 +1,232 @@
+/* ============================================================
+   Журнал, календарь, детали тренировки, итоги
+   ============================================================ */
+.cal {
+  padding: 10px 12px 12px;
+}
+.cal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px 10px;
+}
+.cal__month {
+  font-size: 15px;
+  font-weight: 720;
+  text-transform: capitalize;
+  letter-spacing: -0.01em;
+}
+.cal__nav {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.cal__nav:active {
+  background: var(--surface-3);
+}
+.cal__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.cal__weekdays span {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 650;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.cal__cell {
+  aspect-ratio: 1;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family: var(--font-num);
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: transform 0.12s;
+  position: relative;
+  padding: 2px;
+}
+.cal__cell:active {
+  transform: scale(0.92);
+}
+.cal__cell--empty {
+  pointer-events: none;
+}
+.cal__cell.is-future {
+  opacity: 0.32;
+}
+.cal__cell.is-today {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+.cal__cell.has-workout {
+  background: rgba(198, 242, 74, var(--lvl, 0.3));
+  color: var(--accent-ink);
+  font-weight: 750;
+}
+[data-theme="dark"] .cal__cell.has-workout {
+  color: #0b0c0f;
+}
+.cal__cell.has-workout.is-today {
+  box-shadow: 0 0 0 2px var(--accent-line);
+}
+.cal__more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  padding: 9px 0 1px;
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.month-block {
+  margin-bottom: 18px;
+}
+.month-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+  margin: 0 2px 7px;
+}
+.month-title::first-letter,
+.cal__month::first-letter {
+  text-transform: uppercase;
+}
+
+/* детали тренировки */
+.gbar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 0;
+}
+.gbar__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.gbar__label {
+  font-size: 13px;
+  width: 68px;
+  flex: none;
+  color: var(--text-2);
+}
+.gbar__track {
+  flex: 1;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+.gbar__fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  opacity: 0.9;
+  transition: width 0.4s var(--ease-out);
+}
+.gbar__val {
+  font-size: 12.5px;
+  font-weight: 700;
+  width: 26px;
+  text-align: right;
+  flex: none;
+  color: var(--text-2);
+}
+.wo-ex {
+  padding: 13px 14px;
+  margin-bottom: 8px;
+}
+.wo-sets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 11px;
+}
+.wo-set {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px 5px 6px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text-2);
+}
+.wo-set.is-best {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.wo-set__i {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  background: var(--surface-3);
+  display: grid;
+  place-items: center;
+  font-size: 10.5px;
+  font-weight: 750;
+  color: var(--text-3);
+}
+.wo-set.is-best .wo-set__i {
+  background: rgba(198, 242, 74, 0.2);
+  color: var(--accent);
+}
+
+/* итоги */
+.summary {
+  text-align: center;
+  padding-top: 2px;
+}
+.summary__hero {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-accent);
+  animation: pop-in 0.4s var(--ease-out);
+}
+.summary__title {
+  font-size: 22px;
+  font-weight: 780;
+  letter-spacing: -0.025em;
+}
+.summary__sub {
+  font-size: 13.5px;
+  color: var(--text-3);
+  margin-top: 3px;
+}
+.summary__groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.summary .metrics {
+  text-align: left;
+}

@@ -1,0 +1,375 @@
+/* ============================================================
+   Библиотека упражнений, карточка, пикер, группы
+   ============================================================ */
+.lib-group {
+  margin-bottom: 16px;
+}
+.lib-group__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-2);
+  margin: 0 2px 7px;
+  letter-spacing: 0.01em;
+}
+.lib-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex: none;
+}
+.hint-box {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.hint-box svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-3);
+}
+
+/* карточка упражнения */
+.ex-hero {
+  border-radius: var(--r-lg);
+  padding: 18px 16px;
+  border: 1px solid var(--line);
+}
+.ex-hero__ic {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+}
+.cues {
+  counter-reset: cue;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.cues li {
+  counter-increment: cue;
+  position: relative;
+  padding-left: 30px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.cues li::before {
+  content: counter(cue);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 750;
+  display: grid;
+  place-items: center;
+}
+.mistakes {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mistakes li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.mistakes li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--danger);
+  opacity: 0.8;
+}
+.hist-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  position: relative;
+}
+.hist-row + .hist-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 0;
+  height: 1px;
+  background: var(--line);
+}
+.hist-row__date {
+  font-size: 12px;
+  color: var(--text-3);
+  width: 54px;
+  flex: none;
+}
+.hist-sets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.set-pill {
+  font-family: var(--font-num);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.hist-row__vol {
+  margin-left: auto;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+  flex: none;
+}
+.tips {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.tips li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.tips li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ================= ПИКЕР ================= */
+.picker-search {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--elev);
+  padding-bottom: 8px;
+}
+.picker-groups {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.picker-groups::-webkit-scrollbar {
+  display: none;
+}
+.picker-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 12px 2px 7px;
+}
+.pick-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 10px 2px;
+  min-height: 56px;
+  text-align: left;
+  border-radius: var(--r-sm);
+  transition: background 0.12s;
+}
+.pick-row:active {
+  background: var(--surface-2);
+}
+.pick-ic {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.pick-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 620;
+  line-height: 1.25;
+}
+.pick-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 1px;
+}
+.pick-plus {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--text-2);
+  flex: none;
+}
+.pick-list .pick-row + .pick-row {
+  border-top: 1px solid var(--line);
+}
+
+/* группы мышц (выбор) */
+.group-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+.group-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.14s;
+}
+.group-pick:active {
+  transform: scale(0.97);
+}
+.group-pick.is-on {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.group-pick__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+/* ================= ЗАМЕРЫ ================= */
+.measure-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.measure-grid .input {
+  text-align: left;
+}
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.day-pick {
+  padding: 14px 8px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.day-pick__v {
+  font-size: 22px;
+  font-weight: 760;
+}
+.day-pick__l {
+  font-size: 10.5px;
+  color: var(--text-3);
+}
+.day-pick.is-on {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+}
+.day-pick.is-on .day-pick__v,
+.day-pick.is-on .day-pick__l {
+  color: var(--accent);
+}
+
+/* фото */
+.photo-drop {
+  display: block;
+  padding: 26px 20px;
+  border-radius: var(--r-lg);
+  border: 1.5px dashed var(--line-strong);
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface-2);
+  transition: border-color 0.15s, background 0.15s;
+}
+.photo-drop:active {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.photo-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-card__date {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 7px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+.photo-card__tag {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 2px 7px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
